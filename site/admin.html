@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sinertis Studio - Admin Panel">
+  <meta name="theme-color" content="#0456a8">
+  <title>Sinertis Studio - Admin</title>
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #0456a8 0%, #0d47a1 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .admin-wrapper {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* LOGIN SCREEN */
+    #loginScreen {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 3rem;
+      max-width: 500px;
+      margin: 0 auto;
+      animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .login-header h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      animation: none;
+    }
+
+    .login-header p {
+      color: var(--text-light);
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .form-group label {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .form-group input {
+      padding: 0.9rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(4, 86, 168, 0.1);
+    }
+
+    .form-group input::placeholder {
+      color: var(--text-light);
+    }
+
+    .login-btn {
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(4, 86, 168, 0.3);
+    }
+
+    .login-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(4, 86, 168, 0.4);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #loginMessage {
+      text-align: center;
+      font-size: 0.95rem;
+      min-height: 1.5rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      display: none;
+    }
+
+    #loginMessage.error {
+      background: rgba(239, 68, 68, 0.1);
+      color: #991b1b;
+      border-left: 4px solid #ef4444;
+      display: block;
+    }
+
+    #loginMessage.success {
+      background: rgba(16, 185, 129, 0.1);
+      color: #047857;
+      border-left: 4px solid #10b981;
+      display: block;
+    }
+
+    /* DASHBOARD */
+    #dashboard {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: none;
+    }
+
+    .dashboard-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dashboard-header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      animation: none;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .logout-btn {
+      padding: 0.7rem 1.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .dashboard-content {
+      padding: 2rem;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 1rem 1.5rem;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--text-light);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      margin-bottom: -2px;
+    }
+
+    .tab-btn:hover {
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .tab-content {
+      display: none;
+      animation: slideUp 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .settings-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .setting-item {
+      background: rgba(4, 86, 168, 0.05);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .setting-item h3 {
+      margin: 0 0 0.8rem 0;
+      color: var(--primary);
+      font-size: 1rem;
+    }
+
+    .setting-item input,
+    .setting-item select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+    }
+
+    .setting-item input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(4, 86, 168, 0.1);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-save {
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-save:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(4, 86, 168, 0.3);
+    }
+
+    .btn-danger {
+      padding: 0.8rem 1.5rem;
+      background: rgba(239, 68, 68, 0.1);
+      color: #dc2626;
+      border: 2px solid #ef4444;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    .portfolio-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .portfolio-item {
+      background: rgba(4, 86, 168, 0.05);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .portfolio-item-info h4 {
+      margin: 0 0 0.3rem 0;
+      color: var(--primary);
+    }
+
+    .portfolio-item-info p {
+      margin: 0;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .status-message {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: none;
+      animation: slideUp 0.3s ease;
+    }
+
+    .status-message.success {
+      background: rgba(16, 185, 129, 0.1);
+      color: #047857;
+      border-left: 4px solid #10b981;
+    }
+
+    .status-message.error {
+      background: rgba(239, 68, 68, 0.1);
+      color: #991b1b;
+      border-left: 4px solid #ef4444;
+    }
+
+    .status-message.info {
+      background: rgba(4, 86, 168, 0.1);
+      color: #0256a8;
+      border-left: 4px solid var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      #loginScreen {
+        padding: 2rem;
+      }
+
+      .dashboard-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+
+      .tabs {
+        justify-content: center;
+      }
+
+      .portfolio-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* STATISTICS STYLES */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: rgba(4, 86, 168, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      background: rgba(4, 86, 168, 0.1);
+      border-color: var(--primary);
+      transform: translateY(-5px);
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .stat-info {
+      flex: 1;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-wrapper">
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen">
+      <div class="login-header">
+        <h1><img src="icons/lock.svg" alt="Admin" style="width: 2.5rem; height: 2.5rem; filter: invert(0.3) hue-rotate(200deg); transition: all 0.3s ease; animation: lockPulse 2s ease-in-out infinite;"> Sinertis Admin</h1>
+        <p>Accès sécurisé à votre tableau de bord</p>
+      </div>
+
+      <form class="login-form" id="loginForm">
+        <div class="form-group">
+          <label for="passwordInput">Mot de passe administrateur</label>
+          <input
+            type="password"
+            id="passwordInput"
+            placeholder="Entrez votre mot de passe"
+            required
+            autofocus
+          />
+        </div>
+
+        <button type="submit" class="login-btn" id="loginBtn">
+          Se connecter
+        </button>
+
+        <div id="loginMessage"></div>
+      </form>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard">
+      <div class="dashboard-header">
+        <h1>🎛️ Tableau de bord Admin</h1>
+        <button class="logout-btn" onclick="logout()">Déconnexion</button>
+      </div>
+
+      <div class="dashboard-content">
+        <!-- TABS -->
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('settings')">
+            ⚙️ Paramètres
+          </button>
+          <button class="tab-btn" onclick="switchTab('portfolio')">
+            🎨 Portfolio
+          </button>
+          <button class="tab-btn" onclick="switchTab('email')">
+            📧 EmailJS
+          </button>
+          <button class="tab-btn" onclick="switchTab('stats')">
+            📊 Statistiques
+          </button>
+          <button class="tab-btn" onclick="switchTab('emails')">
+            📬 Emails reçus
+          </button>
+          <button class="tab-btn" onclick="switchTab('moderation')">
+            🛡️ Modération
+          </button>
+          <button class="tab-btn" onclick="switchTab('analytics')">
+            📈 Analytics
+          </button>
+          <button class="tab-btn" onclick="switchTab('maintenance')">
+            🔧 Maintenance
+          </button>
+          <button class="tab-btn" onclick="switchTab('logs')">
+            📋 Logs
+          </button>
+          <button class="tab-btn" onclick="switchTab('backup')">
+            💾 Backup
+          </button>
+          <button class="tab-btn" onclick="switchTab('seo')">
+            🔍 SEO
+          </button>
+        </div>
+
+        <!-- STATUS MESSAGE -->
+        <div id="statusMessage" class="status-message"></div>
+
+        <!-- SETTINGS TAB -->
+        <div id="settings" class="tab-content active">
+          <h2>Paramètres du site</h2>
+
+          <div class="settings-grid">
+            <div class="setting-item">
+              <h3>📧 Email de contact</h3>
+              <input
+                type="email"
+                id="contactEmail"
+                placeholder="Adresse email"
+              />
+            </div>
+
+            <div class="setting-item">
+              <h3>🎬 URL YouTube</h3>
+              <input
+                type="url"
+                id="youtubeUrl"
+                placeholder="https://youtube.com/@..."
+              />
+            </div>
+
+            <div class="setting-item">
+              <h3>💬 URL Discord</h3>
+              <input
+                type="url"
+                id="discordUrl"
+                placeholder="https://discord.gg/..."
+              />
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button class="btn-save" onclick="saveSettings()">
+              💾 Enregistrer les paramètres
+            </button>
+          </div>
+        </div>
+
+        <!-- PORTFOLIO TAB -->
+        <div id="portfolio" class="tab-content">
+          <h2>Gestion du portfolio</h2>
+
+          <div id="portfolioList" class="portfolio-list">
+            <p style="color: var(--text-light);">Chargement des projets...</p>
+          </div>
+        </div>
+
+        <!-- EMAIL CONFIG TAB -->
+        <div id="email" class="tab-content">
+          <h2>Configuration EmailJS</h2>
+
+          <div class="settings-grid">
+            <div class="setting-item">
+              <h3>Service ID</h3>
+              <input
+                type="text"
+                id="emailServiceId"
+                placeholder="service_..."
+              />
+            </div>
+
+            <div class="setting-item">
+              <h3>Template ID</h3>
+              <input
+                type="text"
+                id="emailTemplateId"
+                placeholder="template_..."
+              />
+            </div>
+
+            <div class="setting-item">
+              <h3>Public Key</h3>
+              <input
+                type="text"
+                id="emailPublicKey"
+                placeholder="Votre clé publique"
+              />
+            </div>
+
+            <div class="setting-item">
+              <h3>Email destinataire</h3>
+              <input
+                type="email"
+                id="emailRecipient"
+                placeholder="email@example.com"
+              />
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button class="btn-save" onclick="saveEmailConfig()">
+              💾 Enregistrer la configuration
+            </button>
+          </div>
+        </div>
+
+        <!-- STATISTICS TAB -->
+        <div id="stats" class="tab-content">
+          <h2>📊 Statistiques du site</h2>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">🎨</div>
+              <div class="stat-info">
+                <div class="stat-label">Total des projets</div>
+                <div class="stat-value" id="totalProjects">0</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">📧</div>
+              <div class="stat-info">
+                <div class="stat-label">Email de contact</div>
+                <div class="stat-value" id="contactEmailDisplay" style="font-size: 0.9rem;">-</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">🎬</div>
+              <div class="stat-info">
+                <div class="stat-label">URL YouTube</div>
+                <div class="stat-value" id="youtubeDisplay" style="font-size: 0.8rem;">-</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">💬</div>
+              <div class="stat-info">
+                <div class="stat-label">URL Discord</div>
+                <div class="stat-value" id="discordDisplay" style="font-size: 0.8rem;">-</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+            <h3>📝 Catégories utilisées</h3>
+            <div id="categoriesContainer" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+              <!-- Categories will be populated here -->
+            </div>
+          </div>
+
+          <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+            <h3>🗂️ Dernier projet ajouté</h3>
+            <div id="lastProjectContainer" style="margin-top: 1rem;">
+              <p style="color: var(--text-light);">Aucun projet</p>
+            </div>
+          </div>
+
+          <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+            <h3>🔧 État du système</h3>
+            <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+              <div style="padding: 1rem; background: rgba(0, 200, 100, 0.1); border-radius: 8px; border-left: 4px solid #00c864;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>EmailJS</span>
+                  <span style="color: #00c864; font-weight: bold;" id="emailjsStatus">✓ Prêt</span>
+                </div>
+              </div>
+              <div style="padding: 1rem; background: rgba(0, 200, 100, 0.1); border-radius: 8px; border-left: 4px solid #00c864;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>Stockage local</span>
+                  <span style="color: #00c864; font-weight: bold;" id="storageStatus">✓ OK</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EMAILS RECEIVED TAB -->
+        <div id="emails" class="tab-content">
+          <h2>📬 Emails reçus</h2>
+          <p style="color: var(--text-light); margin-bottom: 1.5rem;">Historique des formulaires de contact soumis</p>
+          
+          <div style="margin-bottom: 1.5rem;">
+            <button class="btn-save" onclick="clearEmailHistory()" style="background: #ef4444; width: 100%; max-width: 300px;">
+              🗑️ Effacer l'historique
+            </button>
+          </div>
+
+          <div id="emailsContainer" style="display: grid; gap: 1rem;">
+            <p style="color: var(--text-light);">Aucun email enregistré</p>
+          </div>
+        </div>
+
+        <!-- BACKUP TAB -->
+        <div id="backup" class="tab-content">
+          <h2>💾 Backup & Export</h2>
+          
+          <div style="display: grid; gap: 1rem; margin-bottom: 2rem;">
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <h3>📥 Exporter les données</h3>
+              <p style="color: var(--text-light); margin-bottom: 1rem;">Télécharger toutes vos données en JSON</p>
+              <button class="btn-save" onclick="exportAllData()">
+                📥 Télécharger le backup complet
+              </button>
+            </div>
+
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <h3>📤 Importer les données</h3>
+              <p style="color: var(--text-light); margin-bottom: 1rem;">Restaurer à partir d'un backup</p>
+              <input type="file" id="importFile" accept=".json" style="display: block; margin-bottom: 1rem; width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 8px;">
+              <button class="btn-save" onclick="importData()" style="background: #16a34a;">
+                📤 Importer depuis un fichier
+              </button>
+            </div>
+
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <h3>📊 Exporter le portfolio</h3>
+              <p style="color: var(--text-light); margin-bottom: 1rem;">Télécharger uniquement le portfolio</p>
+              <button class="btn-save" onclick="exportPortfolio()">
+                📥 Télécharger le portfolio
+              </button>
+            </div>
+          </div>
+
+          <div style="padding: 1.5rem; background: rgba(239, 68, 68, 0.05); border-radius: 12px; border: 1px solid #ef4444; border-left: 4px solid #ef4444;">
+            <h3 style="color: #991b1b; margin-top: 0;">⚠️ Zone dangereuse</h3>
+            <p style="color: var(--text-light); margin-bottom: 1rem;">Ces actions sont irréversibles!</p>
+            <button class="btn-save" onclick="resetEverything()" style="background: #ef4444; width: 100%; max-width: 300px;">
+              🔄 Réinitialiser tout
+            </button>
+          </div>
+        </div>
+
+        <!-- SEO TAB -->
+        <div id="seo" class="tab-content">
+          <h2>🔍 SEO & Métadonnées</h2>
+          
+          <div class="settings-grid">
+            <div class="setting-item">
+              <h3>📄 Titre du site</h3>
+              <input type="text" id="siteTitle" placeholder="Sinertis Studio - Web Design & Development">
+            </div>
+            <div class="setting-item">
+              <h3>📝 Description du site</h3>
+              <input type="text" id="siteDescription" placeholder="Création de sites web, applications web et portfolios professionnels">
+            </div>
+            <div class="setting-item">
+              <h3>🏷️ Keywords</h3>
+              <input type="text" id="siteKeywords" placeholder="web design, développement, portfolio, applications">
+            </div>
+            <div class="setting-item">
+              <h3>👤 Auteur</h3>
+              <input type="text" id="siteAuthor" placeholder="Sinertis">
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button class="btn-save" onclick="saveSEOData()">
+              💾 Enregistrer les paramètres SEO
+            </button>
+          </div>
+
+          <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+            <h3>✓ Prévisualisation des métadonnées</h3>
+            <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 8px; border: 1px solid var(--border);">
+              <div style="margin-bottom: 0.5rem;">
+                <span style="color: #0456a8; font-weight: bold;" id="previewTitle">Sinertis Studio</span>
+              </div>
+              <div style="color: #22c55e; margin-bottom: 0.5rem; font-size: 0.9rem;">https://sinertis.com</div>
+              <div style="color: #666; margin-bottom: 0.5rem;" id="previewDesc">Description du site...</div>
+              <div style="color: #999; font-size: 0.85rem;" id="previewKeywords">Keywords...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODERATION TAB -->
+        <div id="moderation" class="tab-content">
+          <h2>🛡️ Modération</h2>
+          
+          <div style="display: grid; gap: 1rem; margin-bottom: 2rem;">
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <h3>🚫 Bannir une adresse email</h3>
+              <div style="display: grid; gap: 0.8rem;">
+                <input type="email" id="banEmail" placeholder="email@example.com" style="padding: 0.8rem; border: 1px solid var(--border); border-radius: 8px;">
+                <button class="btn-danger" onclick="banEmail()" style="width: 100%;">
+                  🚫 Bannir cet email
+                </button>
+              </div>
+            </div>
+
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <h3>📋 Emails bannits</h3>
+              <div id="bannedEmailsList" style="display: grid; gap: 0.5rem; margin-top: 1rem;">
+                <p style="color: var(--text-light);">Aucun email banni</p>
+              </div>
+            </div>
+
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <h3>🗑️ Supprimer les contacts spam</h3>
+              <p style="color: var(--text-light); margin-bottom: 1rem;">Nettoyez les contacts non désirés</p>
+              <button class="btn-danger" onclick="removeSpamEmails()" style="width: 100%;">
+                🗑️ Supprimer les contacts spam
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ANALYTICS TAB -->
+        <div id="analytics" class="tab-content">
+          <h2>📈 Analytics Avancées</h2>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">Visites totales</div>
+              <div style="font-size: 2rem; font-weight: bold; color: var(--primary);" id="totalVisits">0</div>
+            </div>
+            
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">Emails envoyés</div>
+              <div style="font-size: 2rem; font-weight: bold; color: var(--primary);" id="totalEmailsSent">0</div>
+            </div>
+
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">Projets publiés</div>
+              <div style="font-size: 2rem; font-weight: bold; color: var(--primary);" id="totalProjects">0</div>
+            </div>
+
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">Pages visitées</div>
+              <div style="font-size: 2rem; font-weight: bold; color: var(--primary);" id="pagesVisited">0</div>
+            </div>
+          </div>
+
+          <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+            <h3>📄 Pages les plus visitées</h3>
+            <div id="pageStatsContainer" style="margin-top: 1rem; display: grid; gap: 0.8rem;">
+              <p style="color: var(--text-light);">Pas de données</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAINTENANCE TAB -->
+        <div id="maintenance" class="tab-content">
+          <h2>🔧 Maintenance</h2>
+          
+          <div style="display: grid; gap: 1rem;">
+            <div style="padding: 1.5rem; background: rgba(255, 193, 7, 0.1); border-radius: 12px; border: 1px solid #ffc107; border-left: 4px solid #ffc107;">
+              <h3 style="color: #92400e; margin-top: 0;">⚠️ Mode Maintenance</h3>
+              <p style="color: var(--text-light); margin-bottom: 1rem;">Affiche un message aux visiteurs</p>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-light);">
+                <input type="checkbox" id="maintenanceMode" onchange="toggleMaintenance()">
+                Activer le mode maintenance
+              </label>
+              <textarea id="maintenanceMessage" placeholder="Message d'information..." style="width: 100%; padding: 0.8rem; margin-top: 1rem; border: 1px solid var(--border); border-radius: 8px; min-height: 80px;"></textarea>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 1rem;">
+                <button class="btn-save" onclick="saveMaintenance()" style="width: 100%;">
+                  💾 Enregistrer le message
+                </button>
+                <button class="btn-save" onclick="testMaintenanceMode()" style="width: 100%; background: linear-gradient(135deg, #f59e0b, #d97706);">
+                  👁️ Voir l'aperçu
+                </button>
+              </div>
+            </div>
+
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <h3>🧹 Nettoyer le cache</h3>
+              <p style="color: var(--text-light); margin-bottom: 1rem;">Vide le localStorage et les données temporaires</p>
+              <button class="btn-save" onclick="clearCache()" style="background: #16a34a; width: 100%;">
+                🧹 Vider le cache
+              </button>
+            </div>
+
+            <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+              <h3>🔄 Synchronisation du site</h3>
+              <p style="color: var(--text-light); margin-bottom: 1rem;">Vérifiez la santé du site</p>
+              <button class="btn-save" onclick="runHealthCheck()" style="width: 100%;">
+                🏥 Vérification complète
+              </button>
+              <div id="healthReport" style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 8px; display: none;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOGS TAB -->
+        <div id="logs" class="tab-content">
+          <h2>📋 Logs d'actions</h2>
+          <p style="color: var(--text-light); margin-bottom: 1.5rem;">Historique des actions du panel admin</p>
+          
+          <div style="margin-bottom: 1rem;">
+            <button class="btn-danger" onclick="clearLogs()" style="width: 100%; max-width: 200px;">
+              🗑️ Effacer les logs
+            </button>
+          </div>
+
+          <div id="logsContainer" style="display: grid; gap: 0.8rem;">
+            <p style="color: var(--text-light);">Aucun log</p>
+          </div>
+        </div>
+
+        <!-- End of tabs -->
+      </div>
+    </div>
+  </div>
+
+  <!-- EmailJS: LOCAL first, then CDN, then FALLBACK -->
+  <script src="js/emailjs-local.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js" async defer></script>
+  <script src="js/emailjs-fallback.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    // ============================================
+    // ADMIN PAGE - LOGIC
+    // ============================================
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const sessionToken = sessionStorage.getItem('adminToken');
+
+      if (sessionToken === 'authenticated') {
+        showDashboard();
+        loadData();
+      } else {
+        showLoginScreen();
+      }
+
+      // Login form
+      document.getElementById('loginForm').addEventListener('submit', handleLogin);
+    });
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const password = document.getElementById('passwordInput').value;
+      const messageEl = document.getElementById('loginMessage');
+
+      // Check password
+      if (password === ADMIN_CONFIG.password) {
+        messageEl.className = 'success';
+        messageEl.textContent = '✓ Authentification réussie! Redirection...';
+        messageEl.style.display = 'block';
+
+        sessionStorage.setItem('adminToken', 'authenticated');
+
+        setTimeout(() => {
+          showDashboard();
+          loadData();
+          loadStats();
+          document.getElementById('loginForm').reset();
+        }, 500);
+      } else {
+        messageEl.className = 'error';
+        messageEl.textContent = '❌ Mot de passe incorrect!';
+        messageEl.style.display = 'block';
+        document.getElementById('passwordInput').style.borderColor = '#ef4444';
+        setTimeout(() => {
+          document.getElementById('passwordInput').style.borderColor = '';
+        }, 2000);
+      }
+    }
+
+    function showLoginScreen() {
+      document.getElementById('loginScreen').style.display = 'block';
+      document.getElementById('dashboard').style.display = 'none';
+    }
+
+    function showDashboard() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+    }
+
+    function logout() {
+      if (confirm('Êtes-vous sûr de vouloir vous déconnecter?')) {
+        sessionStorage.removeItem('adminToken');
+        showLoginScreen();
+        document.getElementById('loginForm').reset();
+        showMessage('Déconnexion réussie', 'info');
+      }
+    }
+
+    function switchTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach((tab) => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-btn').forEach((btn) => {
+        btn.classList.remove('active');
+      });
+
+      // Show selected tab
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function loadData() {
+      // Load settings
+      const settings = JSON.parse(localStorage.getItem('siteSettings')) || {
+        contactEmail: 'contactsinertis@yahoo.com',
+        youtubeUrl: 'https://youtube.com/@sinertis',
+        discordUrl: 'https://discord.gg/pxkpH2bsJD'
+      };
+
+      document.getElementById('contactEmail').value = settings.contactEmail;
+      document.getElementById('youtubeUrl').value = settings.youtubeUrl;
+      document.getElementById('discordUrl').value = settings.discordUrl;
+
+      // Load email config
+      const emailConfig = ADMIN_CONFIG.emailjs;
+      document.getElementById('emailServiceId').value = emailConfig.serviceId;
+      document.getElementById('emailTemplateId').value = emailConfig.templateId;
+      document.getElementById('emailPublicKey').value = emailConfig.publicKey;
+      document.getElementById('emailRecipient').value = emailConfig.recipientEmail;
+
+      // Load portfolio
+      loadPortfolioList();
+      
+      // Load new features
+      loadEmailHistory();
+      loadSEOData();
+      
+      // Load maintenance mode status
+      const maintenanceMode = localStorage.getItem('maintenanceMode') === 'true';
+      document.getElementById('maintenanceMode').checked = maintenanceMode;
+      const maintenanceMsg = localStorage.getItem('maintenanceMessage') || 'Le site est temporairement indisponible pour maintenance. Nous serons bientôt de retour!';
+      document.getElementById('maintenanceMessage').value = maintenanceMsg;
+    }
+
+    function loadPortfolioList() {
+      const projects = JSON.parse(
+        localStorage.getItem('portfolioProjects')
+      ) || [];
+      const container = document.getElementById('portfolioList');
+
+      // Always show the add project form
+      let html = `
+        <div style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+          <h3>📌 Ajouter un nouveau projet</h3>
+          <div class="settings-grid" style="margin-bottom: 1rem;">
+            <div class="setting-item">
+              <h3>Titre</h3>
+              <input type="text" id="newProjectTitle" placeholder="Nom du projet">
+            </div>
+            <div class="setting-item">
+              <h3>Catégorie</h3>
+              <select id="newProjectCategory" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 8px; background: white; color: var(--text); cursor: pointer;">
+                <option value="">-- Sélectionnez une catégorie --</option>
+                <option value="Web">🌐 Création de sites web</option>
+                <option value="Développement">⚙️ Développement custom</option>
+                <option value="Mobile">📱 Applications mobile</option>
+                <option value="Design">🎨 Design graphique</option>
+                <option value="SEO">🔍 SEO & Marketing</option>
+                <option value="Autre">📌 Autre</option>
+              </select>
+            </div>
+            <div class="setting-item">
+              <h3>Description</h3>
+              <input type="text" id="newProjectDesc" placeholder="Courte description">
+            </div>
+          </div>
+          <div class="setting-item" style="margin-bottom: 1rem;">
+            <h3>📸 Image du projet</h3>
+            <input type="file" id="newProjectImage" accept="image/*" style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 8px; cursor: pointer;">
+            <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 0.5rem;">Format: JPG, PNG (max 5MB)</p>
+            <div id="imagePreview" style="margin-top: 1rem; max-width: 300px;"></div>
+          </div>
+          <button class="btn-save" onclick="addNewProject()" style="width: 100%;">➕ Ajouter le projet</button>
+        </div>
+      `;
+
+      if (projects.length === 0) {
+        html += '<p style="color: var(--text-light); text-align: center; padding: 2rem;">Aucun projet dans le portfolio - Créez-en un ci-dessus!</p>';
+      } else {
+        html += `<div style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 8px; text-align: center;">
+          <strong>${projects.length}</strong> projet(s) dans le portfolio
+        </div>`;
+        
+        html += projects
+          .map(
+            (project, idx) => `
+          <div class="portfolio-item">
+            <div class="portfolio-item-info">
+              <h4>${project.title}</h4>
+              <p>${project.category} • ${project.description}</p>
+              <p style="font-size: 0.8rem; margin-top: 0.3rem;">Ajouté: ${project.addedAt || 'N/A'}</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="btn-save" onclick="editProject(${idx})" style="background: linear-gradient(135deg, var(--secondary), #7c4dff); padding: 0.6rem 1rem; font-size: 0.85rem;">
+                ✏️ Éditer
+              </button>
+              <button class="btn-danger" onclick="deleteProject(${project.id})" style="padding: 0.6rem 1rem; font-size: 0.85rem;">
+                🗑️ Supprimer
+              </button>
+            </div>
+          </div>
+        `
+          )
+          .join('');
+      }
+
+      container.innerHTML = html;
+    }
+
+    function loadStats() {
+      // Load basic statistics
+      const projects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+      const settings = JSON.parse(localStorage.getItem('siteSettings')) || {
+        contactEmail: 'contactsinertis@yahoo.com',
+        youtubeUrl: 'https://youtube.com/@sinertis',
+        discordUrl: 'https://discord.gg/pxkpH2bsJD'
+      };
+
+      // Total projects
+      document.getElementById('totalProjects').textContent = projects.length;
+
+      // Contact info
+      document.getElementById('contactEmailDisplay').textContent = settings.contactEmail;
+      document.getElementById('youtubeDisplay').textContent = settings.youtubeUrl;
+      document.getElementById('discordDisplay').textContent = settings.discordUrl;
+
+      // Categories
+      const categories = new Map();
+      projects.forEach(project => {
+        const cat = project.category || 'Sans catégorie';
+        categories.set(cat, (categories.get(cat) || 0) + 1);
+      });
+
+      const categoriesContainer = document.getElementById('categoriesContainer');
+      if (categories.size === 0) {
+        categoriesContainer.innerHTML = '<p style="color: var(--text-light);">Aucune catégorie</p>';
+      } else {
+        categoriesContainer.innerHTML = Array.from(categories.entries())
+          .map(([cat, count]) => `
+            <div style="padding: 0.8rem 1.2rem; background: rgba(4, 86, 168, 0.1); border-radius: 8px; border: 1px solid var(--border); color: var(--primary); font-weight: 500;">
+              ${cat} <span style="opacity: 0.7;">(${count})</span>
+            </div>
+          `)
+          .join('');
+      }
+
+      // Last project
+      const lastProjectContainer = document.getElementById('lastProjectContainer');
+      if (projects.length === 0) {
+        lastProjectContainer.innerHTML = '<p style="color: var(--text-light);">Aucun projet</p>';
+      } else {
+        const lastProject = projects[projects.length - 1];
+        lastProjectContainer.innerHTML = `
+          <div style="padding: 1rem; background: rgba(4, 86, 168, 0.05); border-radius: 8px; border: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.8rem;">
+              <div>
+                <h4 style="margin: 0; color: var(--primary);">${lastProject.title}</h4>
+                <p style="margin: 0.3rem 0 0 0; color: var(--text-light); font-size: 0.9rem;">Catégorie: ${lastProject.category}</p>
+              </div>
+              <span style="background: rgba(4, 86, 168, 0.2); padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem; color: var(--primary);">
+                ${lastProject.category}
+              </span>
+            </div>
+            <p style="margin: 0; color: var(--text-light); font-size: 0.95rem;">${lastProject.description}</p>
+            <p style="margin: 0.5rem 0 0 0; color: var(--text-light); font-size: 0.85rem;">Ajouté le: ${lastProject.addedAt || 'N/A'}</p>
+          </div>
+        `;
+      }
+
+      // System status
+      document.getElementById('emailjsStatus').textContent = typeof emailjs !== 'undefined' ? '✓ Prêt' : '⚠ Non chargé';
+      try {
+        localStorage.setItem('test', 'test');
+        localStorage.removeItem('test');
+        document.getElementById('storageStatus').textContent = '✓ OK';
+      } catch (e) {
+        document.getElementById('storageStatus').textContent = '✗ Erreur';
+      }
+    }
+
+    function addNewProject() {
+      const title = document.getElementById('newProjectTitle')?.value.trim();
+      const category = document.getElementById('newProjectCategory')?.value.trim();
+      const desc = document.getElementById('newProjectDesc')?.value.trim();
+      const imageFile = document.getElementById('newProjectImage')?.files[0];
+
+      if (!title || !category || !desc) {
+        showMessage('Remplissez tous les champs!', 'error');
+        return;
+      }
+
+      // Create project object
+      const newProject = {
+        id: Date.now(),
+        title: title,
+        category: category,
+        description: desc,
+        technologies: [category],
+        addedBy: 'admin',
+        addedAt: new Date().toLocaleString('fr-FR')
+      };
+
+      // Handle image upload
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          newProject.image = e.target.result;
+          saveProject(newProject);
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        // Default image if none provided
+        newProject.image = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22%3E%3Crect fill=%220456a8%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2224%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E' + category.toUpperCase() + '%3C/text%3E%3C/svg%3E';
+        saveProject(newProject);
+      }
+    }
+
+    function saveProject(newProject) {
+      let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+      projects.push(newProject);
+      localStorage.setItem('portfolioProjects', JSON.stringify(projects));
+
+      document.getElementById('newProjectTitle').value = '';
+      document.getElementById('newProjectCategory').value = '';
+      document.getElementById('newProjectDesc').value = '';
+      document.getElementById('newProjectImage').value = '';
+      document.getElementById('imagePreview').innerHTML = '';
+
+      loadPortfolioList();
+      loadStats();
+      showMessage('✓ Projet ajouté avec succès!', 'success');
+    }
+
+    // Preview image when selected
+    document.addEventListener('DOMContentLoaded', function() {
+      const imageInput = document.getElementById('newProjectImage');
+      if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+              document.getElementById('imagePreview').innerHTML = '<img src="' + event.target.result + '" style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">';
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+    });
+
+    function editProject(idx) {
+      const projects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+      const project = projects[idx];
+      
+      const newTitle = prompt('Titre du projet:', project.title);
+      if (newTitle === null) return;
+      
+      const newCategory = prompt('Catégorie:', project.category);
+      if (newCategory === null) return;
+      
+      const newDesc = prompt('Description:', project.description);
+      if (newDesc === null) return;
+
+      const changeImage = confirm('Voulez-vous changer l\'image?');
+      
+      projects[idx].title = newTitle;
+      projects[idx].category = newCategory;
+      projects[idx].description = newDesc;
+      projects[idx].technologies = [newCategory];
+
+      if (changeImage) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+              projects[idx].image = event.target.result;
+              localStorage.setItem('portfolioProjects', JSON.stringify(projects));
+              loadPortfolioList();
+              loadStats();
+              showMessage('✓ Projet modifié avec succès!', 'success');
+            };
+            reader.readAsDataURL(file);
+          }
+        };
+        input.click();
+      } else {
+        localStorage.setItem('portfolioProjects', JSON.stringify(projects));
+        loadPortfolioList();
+        loadStats();
+        showMessage('✓ Projet modifié avec succès!', 'success');
+      }
+    }
+
+    function deleteProject(id) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce projet?')) {
+        let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+        projects = projects.filter((p) => p.id !== id);
+        localStorage.setItem('portfolioProjects', JSON.stringify(projects));
+        loadPortfolioList();
+        loadStats();
+        showMessage('Projet supprimé avec succès!', 'success');
+      }
+    }
+
+    function saveSettings() {
+      const settings = {
+        contactEmail: document.getElementById('contactEmail').value,
+        youtubeUrl: document.getElementById('youtubeUrl').value,
+        discordUrl: document.getElementById('discordUrl').value
+      };
+
+      if (!settings.contactEmail) {
+        showMessage('Veuillez remplir tous les champs!', 'error');
+        return;
+      }
+
+      localStorage.setItem('siteSettings', JSON.stringify(settings));
+      showMessage('✓ Paramètres enregistrés avec succès!', 'success');
+    }
+
+    function saveEmailConfig() {
+      const serviceId = document.getElementById('emailServiceId').value;
+      const templateId = document.getElementById('emailTemplateId').value;
+      const publicKey = document.getElementById('emailPublicKey').value;
+      const recipientEmail = document.getElementById('emailRecipient').value;
+
+      if (!serviceId || !templateId || !publicKey || !recipientEmail) {
+        showMessage('Veuillez remplir tous les champs!', 'error');
+        return;
+      }
+
+      // Update in memory
+      ADMIN_CONFIG.emailjs.serviceId = serviceId;
+      ADMIN_CONFIG.emailjs.templateId = templateId;
+      ADMIN_CONFIG.emailjs.publicKey = publicKey;
+      ADMIN_CONFIG.emailjs.recipientEmail = recipientEmail;
+
+      // Also save to localStorage for persistence
+      localStorage.setItem('emailConfig', JSON.stringify(ADMIN_CONFIG.emailjs));
+
+      showMessage('✓ Configuration EmailJS enregistrée!', 'success');
+    }
+
+    // ============================================
+    // NEW FEATURES - EMAILS, BACKUP, SEO
+    // ============================================
+
+    // Track emails in localStorage
+    function trackEmail(data) {
+      let emails = JSON.parse(localStorage.getItem('trackedEmails')) || [];
+      emails.push({
+        ...data,
+        timestamp: new Date().toLocaleString('fr-FR'),
+        id: Date.now()
+      });
+      // Keep only last 100 emails
+      if (emails.length > 100) {
+        emails = emails.slice(-100);
+      }
+      localStorage.setItem('trackedEmails', JSON.stringify(emails));
+      loadEmailHistory();
+    }
+
+    function loadEmailHistory() {
+      const emails = JSON.parse(localStorage.getItem('trackedEmails')) || [];
+      const container = document.getElementById('emailsContainer');
+      
+      if (emails.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-light);">Aucun email enregistré</p>';
+        return;
+      }
+
+      container.innerHTML = emails.slice().reverse().map(email => `
+        <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 12px; border: 1px solid var(--border);">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.8rem;">
+            <div>
+              <h4 style="margin: 0; color: var(--primary);">${email.from_name || 'Anonyme'}</h4>
+              <p style="margin: 0.3rem 0 0 0; font-size: 0.85rem; color: var(--text-light);">${email.timestamp}</p>
+            </div>
+            <button class="btn-danger" onclick="deleteEmail(${email.id})" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+              🗑️
+            </button>
+          </div>
+          <p style="margin: 0.5rem 0; color: var(--text-light); font-size: 0.9rem;">
+            <strong>Email:</strong> ${email.from_email || 'N/A'}
+          </p>
+          <p style="margin: 0.5rem 0; color: var(--text-light); font-size: 0.9rem;">
+            <strong>Sujet:</strong> ${email.subject || 'N/A'}
+          </p>
+          <p style="margin: 0.5rem 0; color: var(--text-light); word-break: break-word;">
+            ${email.message || 'N/A'}
+          </p>
+        </div>
+      `).join('');
+    }
+
+    function deleteEmail(id) {
+      let emails = JSON.parse(localStorage.getItem('trackedEmails')) || [];
+      emails = emails.filter(e => e.id !== id);
+      localStorage.setItem('trackedEmails', JSON.stringify(emails));
+      loadEmailHistory();
+      showMessage('✓ Email supprimé', 'success');
+    }
+
+    function clearEmailHistory() {
+      if (confirm('Êtes-vous sûr? Cette action est irréversible!')) {
+        localStorage.removeItem('trackedEmails');
+        loadEmailHistory();
+        showMessage('✓ Historique effacé', 'success');
+      }
+    }
+
+    // Backup & Export
+    function exportAllData() {
+      const data = {
+        settings: JSON.parse(localStorage.getItem('siteSettings')),
+        projects: JSON.parse(localStorage.getItem('portfolioProjects')),
+        emails: JSON.parse(localStorage.getItem('trackedEmails')),
+        seo: JSON.parse(localStorage.getItem('seoData')),
+        emailConfig: JSON.parse(localStorage.getItem('emailConfig')),
+        exportDate: new Date().toLocaleString('fr-FR'),
+        version: '1.0'
+      };
+
+      const dataStr = JSON.stringify(data, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `sinertis-backup-${new Date().toISOString().split('T')[0]}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+      
+      showMessage('✓ Backup téléchargé', 'success');
+    }
+
+    function importData() {
+      const file = document.getElementById('importFile').files[0];
+      if (!file) {
+        showMessage('❌ Veuillez sélectionner un fichier', 'error');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          
+          if (data.settings) localStorage.setItem('siteSettings', JSON.stringify(data.settings));
+          if (data.projects) localStorage.setItem('portfolioProjects', JSON.stringify(data.projects));
+          if (data.emails) localStorage.setItem('trackedEmails', JSON.stringify(data.emails));
+          if (data.seo) localStorage.setItem('seoData', JSON.stringify(data.seo));
+          if (data.emailConfig) localStorage.setItem('emailConfig', JSON.stringify(data.emailConfig));
+
+          showMessage('✓ Données importées avec succès!', 'success');
+          document.getElementById('importFile').value = '';
+          
+          // Reload
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        } catch (err) {
+          showMessage('❌ Fichier invalide', 'error');
+          console.error(err);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function exportPortfolio() {
+      const projects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+      const dataStr = JSON.stringify(projects, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `portfolio-${new Date().toISOString().split('T')[0]}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+      
+      showMessage('✓ Portfolio téléchargé', 'success');
+    }
+
+    function resetEverything() {
+      if (confirm('⚠️ ATTENTION: Ceci effacera TOUTES les données! Êtes-vous vraiment sûr?')) {
+        if (confirm('Dernier avertissement - Continuer?')) {
+          localStorage.clear();
+          showMessage('✓ Toutes les données ont été supprimées', 'success');
+          setTimeout(() => {
+            location.reload();
+          }, 1000);
+        }
+      }
+    }
+
+    // SEO Management
+    function saveSEOData() {
+      const seoData = {
+        title: document.getElementById('siteTitle').value,
+        description: document.getElementById('siteDescription').value,
+        keywords: document.getElementById('siteKeywords').value,
+        author: document.getElementById('siteAuthor').value
+      };
+
+      localStorage.setItem('seoData', JSON.stringify(seoData));
+      updateSEOPreview();
+      showMessage('✓ Données SEO enregistrées!', 'success');
+    }
+
+    function loadSEOData() {
+      const seoData = JSON.parse(localStorage.getItem('seoData')) || {
+        title: 'Sinertis Studio',
+        description: 'Création de sites web et applications web',
+        keywords: 'web design, développement, portfolio',
+        author: 'Sinertis'
+      };
+
+      document.getElementById('siteTitle').value = seoData.title;
+      document.getElementById('siteDescription').value = seoData.description;
+      document.getElementById('siteKeywords').value = seoData.keywords;
+      document.getElementById('siteAuthor').value = seoData.author;
+      
+      updateSEOPreview();
+    }
+
+    function updateSEOPreview() {
+      const title = document.getElementById('siteTitle').value || 'Sinertis Studio';
+      const desc = document.getElementById('siteDescription').value || 'Description...';
+      const keywords = document.getElementById('siteKeywords').value || 'Keywords...';
+
+      document.getElementById('previewTitle').textContent = title;
+      document.getElementById('previewDesc').textContent = desc;
+      document.getElementById('previewKeywords').textContent = '🔑 ' + keywords;
+    }
+
+    function showMessage(message, type = 'info') {
+      const msgEl = document.getElementById('statusMessage');
+      msgEl.textContent = message;
+      msgEl.className = `status-message ${type}`;
+      msgEl.style.display = 'block';
+
+      setTimeout(() => {
+        msgEl.style.display = 'none';
+      }, 4000);
+    }
+
+    // ============= MODERATION FUNCTIONS =============
+    function banEmail() {
+      const email = document.getElementById('banEmail').value.trim();
+      
+      // Better email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email)) {
+        showMessage('❌ Entrez une adresse email valide', 'error');
+        return;
+      }
+
+      let bannedEmails = JSON.parse(localStorage.getItem('bannedEmails') || '[]');
+      const emailLower = email.toLowerCase();
+      
+      if (!bannedEmails.includes(emailLower)) {
+        bannedEmails.push(emailLower);
+        localStorage.setItem('bannedEmails', JSON.stringify(bannedEmails));
+        addLog(`Email banni: ${emailLower}`);
+        document.getElementById('banEmail').value = '';
+        loadModerationTab();
+        showMessage(`✓ Email banni avec succès: ${emailLower}`, 'success');
+      } else {
+        showMessage('⚠️ Cet email est déjà banni', 'error');
+      }
+    }
+
+    function removeBannedEmail(email) {
+      let bannedEmails = JSON.parse(localStorage.getItem('bannedEmails') || '[]');
+      bannedEmails = bannedEmails.filter(e => e.toLowerCase() !== email.toLowerCase());
+      localStorage.setItem('bannedEmails', JSON.stringify(bannedEmails));
+      addLog(`Email débanni: ${email}`);
+      showMessage(`✓ Email débanni: ${email}`, 'success');
+      loadModerationTab();
+    }
+
+    function loadModerationTab() {
+      const bannedEmails = JSON.parse(localStorage.getItem('bannedEmails') || '[]');
+      const container = document.getElementById('bannedEmailsList');
+      
+      if (bannedEmails.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-light);">Aucun email banni</p>';
+        return;
+      }
+
+      container.innerHTML = bannedEmails.map((email, idx) => `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.8rem; background: white; border-radius: 8px; border: 1px solid var(--border); animation: slideUp 0.3s ease; animation-delay: ${idx * 0.05}s; animation-fill-mode: both;">
+          <span style="font-family: monospace; font-size: 0.9rem; color: var(--primary); word-break: break-all;">${email}</span>
+          <button class="btn-danger" onclick="removeBannedEmail('${email}')" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; white-space: nowrap; margin-left: 1rem;">
+            ➖ Débannir
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function removeSpamEmails() {
+      if (!confirm('Êtes-vous sûr de vouloir supprimer les contacts spam?')) return;
+      
+      localStorage.removeItem('trackedEmails');
+      localStorage.removeItem('bannedEmails');
+      addLog('Suppression des contacts spam');
+      alert('Contacts spam supprimés');
+    }
+
+    // ============= ANALYTICS FUNCTIONS =============
+    function loadAnalyticsTab() {
+      const projects = JSON.parse(localStorage.getItem('portfolioProjects') || '[]');
+      const emails = JSON.parse(localStorage.getItem('trackedEmails') || '[]');
+      const visits = JSON.parse(localStorage.getItem('pageVisits') || '{}');
+
+      document.getElementById('totalVisits').innerText = Object.values(visits).reduce((a, b) => a + b, 0) || 0;
+      document.getElementById('totalEmailsSent').innerText = emails.length;
+      document.getElementById('totalProjects').innerText = projects.length;
+      document.getElementById('pagesVisited').innerText = Object.keys(visits).length;
+
+      // Page stats
+      const pageStatsContainer = document.getElementById('pageStatsContainer');
+      if (Object.keys(visits).length === 0) {
+        pageStatsContainer.innerHTML = '<p style="color: var(--text-light);">Pas de données de visite</p>';
+      } else {
+        pageStatsContainer.innerHTML = Object.entries(visits)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5)
+          .map(([page, count]) => `
+            <div style="padding: 0.8rem; background: white; border-radius: 8px; border-left: 4px solid var(--primary); display: flex; justify-content: space-between;">
+              <span>${page}</span>
+              <strong style="color: var(--primary);">${count} visites</strong>
+            </div>
+          `).join('');
+      }
+    }
+
+    // ============= MAINTENANCE FUNCTIONS =============
+    function toggleMaintenance() {
+      const isActive = document.getElementById('maintenanceMode').checked;
+      localStorage.setItem('maintenanceMode', isActive ? 'true' : 'false');
+      addLog(isActive ? 'Mode maintenance activé' : 'Mode maintenance désactivé');
+      
+      // Notify all open tabs/windows about the change
+      localStorage.setItem('maintenanceToggleTime', new Date().getTime());
+      
+      if (isActive) {
+        showMessage('⚠️ Mode maintenance ACTIVÉ - Les visiteurs verront la page de maintenance sur les autres pages', 'success');
+      } else {
+        showMessage('✓ Mode maintenance désactivé - Le site est à nouveau accessible', 'success');
+      }
+    }
+
+    function saveMaintenance() {
+      const message = document.getElementById('maintenanceMessage').value || 'Le site est temporairement indisponible pour maintenance. Nous serons bientôt de retour!';
+      localStorage.setItem('maintenanceMessage', message);
+      localStorage.setItem('maintenanceToggleTime', new Date().getTime());
+      addLog('Message de maintenance enregistré: ' + message.substring(0, 50) + '...');
+      showMessage('✓ Message enregistré et sauvegardé! Il s\'affichera sur la page de maintenance.', 'success');
+    }
+
+    function testMaintenanceMode() {
+      const isActive = document.getElementById('maintenanceMode').checked;
+      if (!isActive) {
+        showMessage('⚠️ Activez d\'abord le mode maintenance pour le tester!', 'error');
+        return;
+      }
+      
+      showMessage('🔄 Ouverture d\'un aperçu... (Vérifiez que les popups sont autorisées)', 'info');
+      
+      // Open a test window to see the maintenance page in a new tab
+      // The maintenance page will show because checkMaintenanceMode runs on load
+      const testWindow = window.open('index.html', 'maintenance_test', 'width=1200,height=700,top=100,left=100');
+      
+      if (!testWindow) {
+        showMessage('❌ Impossible d\'ouvrir la fenêtre. Vérifiez que les popups sont autorisées.', 'error');
+        return;
+      }
+      
+      setTimeout(() => {
+        showMessage('✓ Aperçu ouvert dans une nouvelle fenêtre! Vous devriez voir la page de maintenance.', 'success');
+      }, 300);
+    }
+
+    function clearCache() {
+      if (!confirm('Êtes-vous sûr? Cela va vider le cache local.')) return;
+      
+      localStorage.clear();
+      sessionStorage.clear();
+      addLog('Cache nettoyé');
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
+
+    function runHealthCheck() {
+      const report = document.getElementById('healthReport');
+      
+      // Gather detailed info
+      const portfolioProjects = JSON.parse(localStorage.getItem('portfolioProjects') || '[]');
+      const trackedEmails = JSON.parse(localStorage.getItem('trackedEmails') || '[]');
+      const bannedEmails = JSON.parse(localStorage.getItem('bannedEmails') || '[]');
+      const adminLogs = JSON.parse(localStorage.getItem('adminLogs') || '[]');
+      const seoData = localStorage.getItem('seoData');
+      const maintenanceMode = localStorage.getItem('maintenanceMode') === 'true';
+      
+      const storageSize = new Blob(Object.values(localStorage)).size;
+      const storagePercent = Math.round((storageSize / (5 * 1024 * 1024)) * 100); // 5MB typical limit
+      
+      let html = `
+        <div style="padding: 1.5rem; background: rgba(4, 86, 168, 0.05); border-radius: 8px; border: 1px solid var(--border);">
+          <h4 style="margin-top: 0; color: var(--primary); display: flex; align-items: center; gap: 0.5rem;">
+            📊 Rapport de santé du site
+            <span style="font-size: 0.8rem; color: var(--text-light); font-weight: normal;">${new Date().toLocaleString('fr-FR')}</span>
+          </h4>
+          
+          <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+            <div style="padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid #3b82f6;">
+              <h5 style="margin: 0 0 0.8rem 0; color: var(--primary);">💾 État du stockage</h5>
+              <div style="font-size: 0.9rem; color: var(--text-light); display: grid; gap: 0.4rem;">
+                <div>📦 Taille utilisée: <strong>${(storageSize / 1024).toFixed(1)} KB</strong> (${storagePercent}% de la limite)</div>
+                <div style="background: linear-gradient(to right, #3b82f6, #3b82f6 ${storagePercent}%, rgba(200,200,200,0.2) ${storagePercent}%, rgba(200,200,200,0.2)); height: 20px; border-radius: 4px; margin: 0.5rem 0;"></div>
+                ${storagePercent > 80 ? '<div style="color: #f59e0b;">⚠️ Stockage presque plein! Considérez un nettoyage.</div>' : '<div style="color: #22c55e;">✅ Espace disponible</div>'}
+              </div>
+            </div>
+            
+            <div style="padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid #8b5cf6;">
+              <h5 style="margin: 0 0 0.8rem 0; color: #8b5cf6;">📈 Données du site</h5>
+              <div style="font-size: 0.9rem; color: var(--text-light); display: grid; gap: 0.4rem;">
+                <div>🎨 Projets portfolio: <strong>${portfolioProjects.length}</strong> projet(s)</div>
+                <div>📧 Emails reçus: <strong>${trackedEmails.length}</strong> email(s)</div>
+                <div>🚫 Emails bannis: <strong>${bannedEmails.length}</strong> email(s)</div>
+                <div>📋 Logs admin: <strong>${adminLogs.length}</strong> entrée(s)</div>
+                <div>🔍 SEO configuré: ${seoData ? '<strong style="color: #22c55e;">✅ Oui</strong>' : '<strong style="color: #ef4444;">❌ Non</strong>'}</div>
+                <div>🔧 Mode maintenance: ${maintenanceMode ? '<strong style="color: #f59e0b;">🟡 ACTIF</strong>' : '<strong style="color: #22c55e;">✅ Inactif</strong>'}</div>
+              </div>
+            </div>
+            
+            <div style="padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid #06b6d4;">
+              <h5 style="margin: 0 0 0.8rem 0; color: #06b6d4;">⚙️ Composants système</h5>
+              <div style="font-size: 0.9rem; color: var(--text-light); display: grid; gap: 0.4rem;">
+                <div>✅ localStorage disponible</div>
+                <div>${typeof emailjs !== 'undefined' ? '✅ EmailJS chargé' : '❌ EmailJS absent'}</div>
+                <div>${ADMIN.isAuthenticated() ? '✅ Admin authentifié' : '❌ Admin non authentifié'}</div>
+                <div>✅ Admin Config chargé</div>
+              </div>
+            </div>
+            
+            <div style="padding: 1rem; background: rgba(34, 197, 94, 0.05); border-radius: 8px; border: 1px solid #22c55e;">
+              <h5 style="margin: 0 0 0.8rem 0; color: #22c55e;">✨ Recommandations</h5>
+              <div style="font-size: 0.9rem; color: var(--text-light); display: grid; gap: 0.4rem;">
+                ${trackedEmails.length > 50 ? '<div>💡 Vous avez beaucoup d\'emails. Pensez à exporter régulièrement.</div>' : ''}
+                ${bannedEmails.length > 0 ? '<div>💡 ' + bannedEmails.length + ' email(s) bloqué(s) actuellement.</div>' : ''}
+                ${storagePercent > 70 ? '<div>💡 Espace de stockage faible. Faites un backup et nettoyez si nécessaire.</div>' : ''}
+                ${!maintenanceMode ? '<div>✅ Site en mode normal - accessible aux visiteurs</div>' : '<div>⚠️ Mode maintenance actif - visiteurs voient la page de maintenance</div>'}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      report.innerHTML = html;
+      report.style.display = 'block';
+      addLog('Vérification de santé effectuée');
+    }
+
+    // ============= LOGS FUNCTIONS =============
+    function addLog(message) {
+      let logs = JSON.parse(localStorage.getItem('adminLogs') || '[]');
+      const timestamp = new Date().toLocaleString('fr-FR');
+      logs.push({ message, timestamp });
+      
+      // Garder seulement les 100 derniers logs
+      if (logs.length > 100) {
+        logs = logs.slice(-100);
+      }
+      
+      localStorage.setItem('adminLogs', JSON.stringify(logs));
+      
+      // Refresh logs display si visible
+      const logsContainer = document.getElementById('logsContainer');
+      if (logsContainer && !logsContainer.hidden) {
+        loadLogsTab();
+      }
+    }
+
+    function loadLogsTab() {
+      const logs = JSON.parse(localStorage.getItem('adminLogs') || '[]');
+      const container = document.getElementById('logsContainer');
+      
+      if (logs.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-light);">Aucun log</p>';
+        return;
+      }
+
+      container.innerHTML = logs
+        .reverse()
+        .map((log, idx) => `
+          <div style="padding: 0.8rem; background: white; border-radius: 8px; border-left: 4px solid var(--primary); border: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="font-weight: 500;">${log.message}</span>
+              <span style="color: var(--text-light); font-size: 0.85rem;">${log.timestamp}</span>
+            </div>
+          </div>
+        `).join('');
+    }
+
+    function clearLogs() {
+      if (!confirm('Êtes-vous sûr de vouloir effacer tous les logs?')) return;
+      localStorage.removeItem('adminLogs');
+      addLog('Logs effacés');
+      loadLogsTab();
+      alert('Logs effacés');
+    }
+
+    // Update switchTab to load tab-specific content
+    const originalSwitchTab = window.switchTab;
+    window.switchTab = function(tabName) {
+      originalSwitchTab(tabName);
+      
+      if (tabName === 'moderation') loadModerationTab();
+      if (tabName === 'analytics') loadAnalyticsTab();
+      if (tabName === 'logs') loadLogsTab();
+    };
+  </script>
+</body>
+</html>

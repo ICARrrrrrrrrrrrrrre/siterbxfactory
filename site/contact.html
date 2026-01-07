@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - Sinertis Studio</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <ul class="nav-menu">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="tarifs.html">Tarifs</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+      </ul>
+      <div class="navbar-right">
+        <button id="adminToggle" onclick="openAdminPage()" style="background: none; border: none; cursor: pointer; padding: 0.5rem; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; color: var(--primary); width: 2.2rem; height: 2.2rem; border-radius: 50%;" title="Espace Admin" onmouseover="this.style.background='rgba(4, 86, 168, 0.1)'; this.style.color='var(--accent)'" onmouseout="this.style.background='none'; this.style.color='var(--primary)'"><img src="icons/lock.svg" alt="Admin" style="width: 100%; height: 100%; filter: invert(0.3) hue-rotate(200deg); transition: all 0.3s ease;"></button>
+        <a href="https://youtube.com/@sinertis" target="_blank" rel="noopener noreferrer" class="navbar-social" title="YouTube">
+          <img src="icons/youtube.svg" alt="YouTube" style="height: 24px;">
+        </a>
+        <a href="https://discord.gg/pxkpH2bsJD" target="_blank" rel="noopener noreferrer" class="navbar-social" title="Discord">
+          <img src="icons/discord.svg" alt="Discord" style="height: 24px;">
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SIDEBAR -->
+  <div class="overlay"></div>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="images/brand/logo.svg" alt="Sinertis" style="height: 35px;">
+      <button class="sidebar-close">×</button>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="tarifs.html">Tarifs</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-social" style="padding: 1.5rem; border-top: 1px solid var(--border); margin-top: 1.5rem;">
+      <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px;">Nous suivre</p>
+      <div style="display: flex; gap: 1rem;">
+        <a href="https://youtube.com/@sinertis" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(4, 86, 168, 0.1); border-radius: 50%; transition: all 0.3s ease;">
+          <img src="icons/youtube.svg" alt="YouTube" style="width: 24px; height: 24px;">
+        </a>
+        <a href="https://discord.gg/pxkpH2bsJD" target="_blank" rel="noopener noreferrer" aria-label="Discord" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(4, 86, 168, 0.1); border-radius: 50%; transition: all 0.3s ease;">
+          <img src="icons/discord.svg" alt="Discord" style="width: 24px; height: 24px;">
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- HERO -->
+  <section class="hero" style="padding: 6rem 0 4rem;">
+    <div class="hero-content">
+      <h1>Contactez-nous</h1>
+      <p>Parlons de votre projet et transformons votre vision en réalité</p>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+        <!-- FORM -->
+        <div>
+          <h2 style="margin-bottom: 1.5rem; animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);">Envoyez un message</h2>
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name">Nom complet *</label>
+              <input type="text" id="name" placeholder="Votre nom complet" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" placeholder="votre@email.com" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="service">Service Intéressé *</label>
+              <select id="service" required>
+                <option value="">Sélectionnez un service</option>
+                <option value="site_web">Site Web Vitrine</option>
+                <option value="ecommerce">Boutique E-commerce</option>
+                <option value="discord_bot">Bot Discord Custom</option>
+                <option value="roblox_game">Jeu Roblox</option>
+                <option value="design">Design Graphique</option>
+                <option value="autre">Autre (à préciser)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Téléphone</label>
+              <input type="tel" id="phone" placeholder="+33 6 XX XX XX XX">
+            </div>
+            
+            <div class="form-group">
+              <label for="subject">Sujet *</label>
+              <input type="text" id="subject" placeholder="Sujet de votre demande" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="message">Détails de votre projet *</label>
+              <textarea id="message" placeholder="Décrivez votre projet, vos attentes, vos délais..." required style="min-height: 120px;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+              <button type="submit" class="btn btn-primary btn-large" style="flex: 1;">Envoyer</button>
+              <button type="reset" class="btn btn-secondary" style="flex: 1;">Réinitialiser</button>
+            </div>
+
+            <div id="formStatus" style="margin-top: 1rem; padding: 1rem; border-radius: var(--radius); display: none;"></div>
+          </form>
+        </div>
+
+        <!-- INFO CONTACT -->
+        <div>
+          <h2 style="margin-bottom: 1.5rem; animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);">Informations</h2>
+          
+          <div style="background: white; border: 2px solid var(--border); border-radius: var(--radius); padding: 2rem; margin-bottom: 1.5rem; animation: slideUp 1s cubic-bezier(0.34, 1.56, 0.64, 1);">
+            <h4 style="color: var(--primary); margin-bottom: 0.5rem; animation: none;">📧 Email</h4>
+            <p><a href="mailto:contactsinertis@yahoo.com" style="color: var(--accent); font-weight: 700; font-size: 1.05rem;">contactsinertis@yahoo.com</a></p>
+          </div>
+
+          <div style="background: white; border: 2px solid var(--border); border-radius: var(--radius); padding: 2rem; margin-bottom: 1.5rem; animation: slideUp 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);">
+            <h4 style="color: var(--primary); margin-bottom: 0.5rem; animation: none;">⏰ Disponibilité</h4>
+            <p>Nous répondons généralement en moins de 24h</p>
+          </div>
+
+          <div style="background: white; border: 2px solid var(--border); border-radius: var(--radius); padding: 2rem; animation: slideUp 1.4s cubic-bezier(0.34, 1.56, 0.64, 1);">
+            <h4 style="color: var(--primary); margin-bottom: 1rem; animation: none;">🎯 Services</h4>
+            <ul style="list-style: none; color: var(--text-light); line-height: 2;">
+              <li>✓ Sites Web & Vitrines</li>
+              <li>✓ E-commerce & Boutiques</li>
+              <li>✓ Bots Discord Avancés</li>
+              <li>✓ Jeux & Expériences Roblox</li>
+              <li>✓ Design Graphique</li>
+              <li>✓ Maintenance & Support</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-col">
+          <h4>À Propos</h4>
+          <p style="font-size: 0.95rem; line-height: 1.8;">Sinertis Studio crée des solutions digitales innovantes et professionnelles pour transformer votre présence en ligne.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <a href="services.html">Sites Web</a>
+          <a href="services.html">Applications</a>
+          <a href="services.html">Bots Discord</a>
+          <a href="services.html">Projets Roblox</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:contactsinertis@yahoo.com">contactsinertis@yahoo.com</a>
+          <a href="contact.html">Formulaire de contact</a>
+        </div>
+      </div>
+      <div class="footer-social">
+        <a href="https://youtube.com/@sinertis" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <img src="icons/youtube.svg" alt="YouTube">
+        </a>
+        <a href="https://discord.gg/pxkpH2bsJD" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+          <img src="icons/discord.svg" alt="Discord">
+        </a>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Sinertis Studio. Tous droits réservés. | Création de solutions digitales innovantes</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ADMIN LOGIN MODAL -->
+  <div id="adminModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center; padding: 1rem;">
+    <div style="background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); max-width: 400px; width: 100%;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="margin: 0; color: var(--primary); animation: none; font-size: 1.5rem;">🔐 Espace Admin</h2>
+        <button type="button" onclick="closeAdminModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light); padding: 0;">×</button>
+      </div>
+
+      <form id="adminLoginForm">
+        <div style="margin-bottom: 1.5rem;">
+          <label style="font-weight: 700; color: var(--text); display: block; margin-bottom: 0.5rem;">Mot de passe</label>
+          <input type="password" id="adminPasswordInput" placeholder="Entrez votre mot de passe" required style="width: 100%; padding: 0.8rem; border: 2px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 1rem; box-sizing: border-box;">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer; border: none;">Se connecter</button>
+        
+        <p id="loginStatus" style="margin-top: 1rem; font-size: 0.9rem; text-align: center; color: var(--text-light); display: none;"></p>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    #adminModal[style*="flex"] {
+      display: flex !important;
+    }
+  </style>
+
+  <!-- EmailJS: LOCAL first, then CDN, then FALLBACK -->
+  <script src="js/emailjs-local.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js" async defer></script>
+  <script src="js/emailjs-fallback.js"></script>
+  <script src="js/admin.js"></script>
+  
+  <script>
+    function openAdminPage() {
+      if (ADMIN.isAuthenticated()) {
+        window.location.href = 'admin.html';
+      } else {
+        window.location.href = 'admin.html';
+      }
+    }
+
+    // Charger les services sélectionnés depuis tarifs.html
+    window.addEventListener('load', function() {
+      const devisInfo = sessionStorage.getItem('devisInfo');
+      if (devisInfo) {
+        try {
+          const data = JSON.parse(devisInfo);
+          const messageField = document.getElementById('message');
+          const subjectField = document.getElementById('subject');
+          
+          if (data.services && data.services.length > 0) {
+            subjectField.value = 'Demande de devis - ' + data.count + ' service(s) sélectionné(s)';
+            
+            let messageContent = 'Services sélectionnés:\n';
+            data.services.forEach(service => {
+              messageContent += '• ' + service + '\n';
+            });
+            messageContent += '\nPrix total estimé: ' + data.total + '€\n\n';
+            messageContent += 'Veuillez me proposer un devis détaillé pour les services ci-dessus.\n\nCommentaires/Demandes spéciales:';
+            
+            messageField.value = messageContent;
+          }
+        } catch(e) {
+          console.log('Aucun devis sélectionné');
+        }
+      }
+    });
+
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const statusDiv = document.getElementById('formStatus');
+        if (!statusDiv) return;
+        
+        // Check if email is banned
+        const fromEmail = document.getElementById('email').value.trim().toLowerCase();
+        const bannedEmails = JSON.parse(localStorage.getItem('bannedEmails') || '[]');
+        
+        if (bannedEmails.includes(fromEmail)) {
+          statusDiv.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05))';
+          statusDiv.style.borderLeft = '4px solid #ef4444';
+          statusDiv.style.color = '#991b1b';
+          statusDiv.innerHTML = '❌ Votre email est bloqué. Contactez le support si vous pensez que c\'est une erreur.';
+          statusDiv.style.display = 'block';
+          return;
+        }
+        
+        // Vérifier EmailJS avec retry
+        if (typeof emailjs === 'undefined') {
+          console.log('⏳ EmailJS non prêt, tentative d\'initialisation...');
+          statusDiv.style.background = 'linear-gradient(135deg, rgba(239, 193, 68, 0.1), rgba(239, 193, 68, 0.05))';
+          statusDiv.style.borderLeft = '4px solid #f59e0b';
+          statusDiv.style.color = '#92400e';
+          statusDiv.innerHTML = '⏳ EmailJS en cours de chargement... Veuillez attendre.';
+          statusDiv.style.display = 'block';
+          
+          // Retry after 2 seconds
+          setTimeout(() => {
+            if (typeof emailjs !== 'undefined') {
+              statusDiv.innerHTML = '✓ EmailJS chargé! Envoi du formulaire...';
+              statusDiv.style.background = 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05))';
+              statusDiv.style.borderLeft = '4px solid #22c55e';
+              statusDiv.style.color = '#15803d';
+              // Retry form submission
+              document.getElementById('contactForm').dispatchEvent(new Event('submit'));
+            } else {
+              statusDiv.innerHTML = '❌ EmailJS non chargé. Rechargez la page.';
+              statusDiv.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05))';
+              statusDiv.style.borderLeft = '4px solid #ef4444';
+              statusDiv.style.color = '#991b1b';
+            }
+          }, 2000);
+          return;
+        }
+
+        const formData = {
+          to_email: ADMIN.config.emailjs.recipientEmail,
+          from_name: document.getElementById('name').value,
+          from_email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value || 'Non fourni',
+          service: document.getElementById('service').value,
+          subject: document.getElementById('subject').value,
+          message: document.getElementById('message').value,
+          date: new Date().toLocaleString('fr-FR')
+        };
+
+        try {
+          statusDiv.style.background = 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05))';
+          statusDiv.style.borderLeft = '4px solid #3b82f6';
+          statusDiv.style.color = '#1e40af';
+          statusDiv.innerHTML = '⏳ Envoi en cours...';
+          statusDiv.style.display = 'block';
+          
+          const result = await ADMIN.sendEmail(formData);
+          
+          console.log('✓ Email envoyé!', result);
+          
+          // Track email in admin panel (if function exists)
+          if (typeof trackEmail === 'function') {
+            trackEmail(formData);
+          } else {
+            // Fallback: save directly to localStorage
+            let emails = JSON.parse(localStorage.getItem('trackedEmails')) || [];
+            emails.push({
+              ...formData,
+              timestamp: new Date().toLocaleString('fr-FR'),
+              id: Date.now()
+            });
+            if (emails.length > 100) {
+              emails = emails.slice(-100);
+            }
+            localStorage.setItem('trackedEmails', JSON.stringify(emails));
+          }
+          
+          statusDiv.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05))';
+          statusDiv.style.borderLeft = '4px solid #10b981';
+          statusDiv.style.color = '#047857';
+          statusDiv.innerHTML = '✓ Email envoyé avec succès! Nous vous répondrons bientôt.';
+          statusDiv.style.display = 'block';
+          
+          setTimeout(() => {
+            contactForm.reset();
+            statusDiv.style.display = 'none';
+          }, 3000);
+          
+        } catch (error) {
+          console.error('❌ Erreur:', error);
+          statusDiv.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05))';
+          statusDiv.style.borderLeft = '4px solid #ef4444';
+          statusDiv.style.color = '#991b1b';
+          statusDiv.innerHTML = `❌ Erreur: ${error.text || error.message || 'Impossible d\'envoyer'}`;
+          statusDiv.style.display = 'block';
+        }
+      });
+    }
+  </script>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Documentation complète - RGPD, Factures Stripe, Produits, Conditions, Mentions légales">
+  <meta name="theme-color" content="#0456a8">
+  <title>Documentation - Sinertis Studio</title>
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Documentation Specific Styles */
+    .doc-container {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .doc-sidebar {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+      background: rgba(4, 86, 168, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-y: auto;
+      max-height: calc(100vh - 120px);
+    }
+
+    .doc-sidebar h3 {
+      margin: 0 0 1.5rem 0;
+      color: var(--primary);
+      font-size: 1.1rem;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 0.8rem;
+    }
+
+    .doc-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .doc-menu li {
+      margin: 0.5rem 0;
+    }
+
+    .doc-menu a {
+      display: block;
+      padding: 0.8rem 1rem;
+      color: var(--text-light);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .doc-menu a:hover {
+      background: rgba(4, 86, 168, 0.1);
+      color: var(--primary);
+      border-left-color: var(--primary);
+      padding-left: 1.2rem;
+    }
+
+    .doc-menu a.active {
+      background: rgba(4, 86, 168, 0.15);
+      color: var(--primary);
+      font-weight: 600;
+      border-left-color: var(--accent);
+    }
+
+    .doc-content {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 3rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .doc-section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .doc-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .doc-section h2 {
+      color: var(--primary);
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .doc-section h3 {
+      color: var(--primary);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+      border-left: 4px solid var(--accent);
+    }
+
+    .doc-section h4 {
+      color: var(--secondary);
+      margin-top: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .doc-box {
+      background: linear-gradient(135deg, rgba(4, 86, 168, 0.05), rgba(4, 86, 168, 0.02));
+      border-left: 4px solid var(--primary);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .doc-box.warning {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+      border-left-color: #f59e0b;
+    }
+
+    .doc-box.success {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+      border-left-color: #22c55e;
+    }
+
+    .doc-box.danger {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+      border-left-color: #ef4444;
+    }
+
+    .doc-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    .doc-list li {
+      padding: 0.8rem 0 0.8rem 2.5rem;
+      position: relative;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    .doc-list li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .doc-list.numbers {
+      counter-reset: item;
+      padding-left: 0;
+    }
+
+    .doc-list.numbers li {
+      counter-increment: item;
+      padding-left: 2.5rem;
+    }
+
+    .doc-list.numbers li:before {
+      content: counter(item);
+      position: absolute;
+      left: 0;
+      background: var(--primary);
+      color: white;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .doc-table th {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .doc-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-light);
+    }
+
+    .doc-table tr:hover {
+      background: rgba(4, 86, 168, 0.03);
+    }
+
+    .doc-code {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 1.5rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1024px) {
+      .doc-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .doc-sidebar {
+        position: static;
+        max-height: none;
+      }
+
+      .doc-content {
+        padding: 2rem;
+      }
+    }
+
+    .breadcrumb {
+      color: var(--text-light);
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <ul class="nav-menu">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="tarifs.html">Tarifs</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="documentation.html" class="active">Documentation</a></li>
+      </ul>
+      <div class="navbar-right">
+        <button id="adminToggle" onclick="openAdminPage()" title="Admin Panel" style="background: none; border: none; cursor: pointer; color: var(--primary); width: 2.2rem; height: 2.2rem; display: flex; align-items: center; justify-content: center; padding: 0.5rem; transition: all 0.3s ease; border-radius: 50%;" onmouseover="this.style.background='rgba(4, 86, 168, 0.1)'; this.style.color='var(--accent)'" onmouseout="this.style.background='none'; this.style.color='var(--primary)'"><img src="icons/lock.svg" alt="Admin" style="width: 100%; height: 100%; filter: invert(0.3) hue-rotate(200deg); transition: all 0.3s ease;"></button>
+        <a href="https://youtube.com/@sinertis" target="_blank" rel="noopener noreferrer" class="navbar-social" title="YouTube">
+          <img src="icons/youtube.svg" alt="YouTube" style="height: 24px;">
+        </a>
+        <a href="https://discord.gg/pxkpH2bsJD" target="_blank" rel="noopener noreferrer" class="navbar-social" title="Discord">
+          <img src="icons/discord.svg" alt="Discord" style="height: 24px;">
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SIDEBAR -->
+  <div class="overlay"></div>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="images/brand/logo.svg" alt="Sinertis" style="height: 35px;">
+      <button class="sidebar-close">×</button>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="tarifs.html">Tarifs</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="documentation.html" class="active">Documentation</a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-social" style="padding: 1.5rem; border-top: 1px solid var(--border); margin-top: 1.5rem;">
+      <a href="https://youtube.com/@sinertis" target="_blank" rel="noopener noreferrer" style="margin-right: 1rem;">
+        <img src="icons/youtube.svg" alt="YouTube" style="height: 24px;">
+      </a>
+      <a href="https://discord.gg/pxkpH2bsJD" target="_blank" rel="noopener noreferrer">
+        <img src="icons/discord.svg" alt="Discord" style="height: 24px;">
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, rgba(4, 86, 168, 0.8), rgba(13, 71, 161, 0.8)), url('images/brand/logo.svg') center/cover; padding: 4rem 2rem; text-align: center; color: white; margin-bottom: 3rem;">
+      <h1 style="font-size: 3rem; margin-bottom: 1rem; font-weight: 900;">📚 Documentation Complète</h1>
+      <p style="font-size: 1.2rem; opacity: 0.95; max-width: 600px; margin: 0 auto;">Tout ce que vous devez savoir sur nos services, normes légales et conditions</p>
+    </section>
+
+    <!-- Documentation Container -->
+    <div class="doc-container">
+      <!-- Sidebar Menu -->
+      <aside class="doc-sidebar">
+        <h3>📖 Sommaire</h3>
+        <ul class="doc-menu">
+          <li><a href="#rgpd" onclick="showSection('rgpd')" class="active">🔐 RGPD</a></li>
+          <li><a href="#factures" onclick="showSection('factures')">🧾 Factures Stripe</a></li>
+          <li><a href="#produits" onclick="showSection('produits')">🛍️ Produits & Services</a></li>
+          <li><a href="#conditions" onclick="showSection('conditions')">📋 Conditions</a></li>
+          <li><a href="#mentions-legales" onclick="showSection('mentions-legales')">⚖️ Mentions Légales</a></li>
+          <li><a href="#securite" onclick="showSection('securite')">🔒 Sécurité</a></li>
+          <li><a href="#faq" onclick="showSection('faq')">❓ FAQ</a></li>
+        </ul>
+      </aside>
+
+      <!-- Content Area -->
+      <div class="doc-content">
+        <!-- RGPD Section -->
+        <section id="rgpd" class="doc-section active">
+          <div class="breadcrumb">Documentation > <a href="#rgpd">RGPD</a></div>
+          <h2>🔐 Politique de Confidentialité et RGPD</h2>
+
+          <h3>Introduction</h3>
+          <p>Sinertis Studio s'engage à respecter la Règlement Général sur la Protection des Données (RGPD) et à protéger la vie privée de tous les utilisateurs, clients et visiteurs de ses services.</p>
+
+          <h3>1. Responsable du Traitement</h3>
+          <div class="doc-box">
+            <strong>Sinertis Studio</strong><br>
+            Email: <a href="mailto:contactsinertis@yahoo.com">contactsinertis@yahoo.com</a>
+          </div>
+
+          <h3>2. Données Collectées</h3>
+          <p>Nous collectons les données suivantes:</p>
+          <ul class="doc-list">
+            <li><strong>Données de contact:</strong> Nom, prénom, email</li>
+            <li><strong>Données de navigation:</strong> Adresse IP, cookies, historique de visite</li>
+            <li><strong>Données techniques:</strong> Type d'appareil, navigateur, système d'exploitation</li>
+            <li><strong>Données paiement:</strong> Traitées par Stripe (nous n'avons pas accès aux numéros de carte)</li>
+          </ul>
+
+          <h3>3. Base Légale du Traitement</h3>
+          <div class="doc-table">
+            <tr>
+              <th>Type de données</th>
+              <th>Base légale</th>
+              <th>Durée de conservation</th>
+            </tr>
+            <tr>
+              <td>Contact/Devis</td>
+              <td>Consentement + Intérêt légitime</td>
+              <td>3 ans</td>
+            </tr>
+            <tr>
+              <td>Commandes</td>
+              <td>Exécution du contrat</td>
+              <td>5 ans (obligation légale)</td>
+            </tr>
+            <tr>
+              <td>Cookies analytiques</td>
+              <td>Consentement</td>
+              <td>13 mois</td>
+            </tr>
+            <tr>
+              <td>Données de visite</td>
+              <td>Intérêt légitime</td>
+              <td>1 an</td>
+            </tr>
+          </div>
+
+          <h3>4. Droits des Utilisateurs</h3>
+          <p>Conformément au RGPD, vous avez le droit:</p>
+          <ul class="doc-list">
+            <li><strong>Droit d'accès:</strong> Obtenir une copie de vos données</li>
+            <li><strong>Droit de rectification:</strong> Corriger des données inexactes</li>
+            <li><strong>Droit à l'oubli:</strong> Demander la suppression de vos données</li>
+            <li><strong>Droit à la portabilité:</strong> Récupérer vos données dans un format standard</li>
+            <li><strong>Droit d'opposition:</strong> Refuser le traitement à des fins de marketing</li>
+            <li><strong>Droit à la limitation:</strong> Restreindre le traitement</li>
+          </ul>
+
+          <div class="doc-box warning">
+            <strong>⚠️ Pour exercer vos droits:</strong> Envoyez une demande à <a href="mailto:contactsinertis@yahoo.com">contactsinertis@yahoo.com</a> avec une copie de votre pièce d'identité. Nous répondrons dans les 30 jours.
+          </div>
+
+          <h3>5. Sécurité des Données</h3>
+          <ul class="doc-list">
+            <li>Chiffrement HTTPS sur tout le site</li>
+            <li>Stockage sécurisé en localStorage (navigateur)</li>
+            <li>Pas de transmission de données sensibles non chiffrées</li>
+            <li>Paiements traités exclusivement par Stripe (PCI-DSS compliant)</li>
+            <li>Accès limité aux données sensibles</li>
+          </ul>
+
+          <h3>6. Cookies et Tracking</h3>
+          <div class="doc-box">
+            <strong>Types de cookies utilisés:</strong>
+            <ul class="doc-list">
+              <li><strong>Essentiels:</strong> Session utilisateur, préférences</li>
+              <li><strong>Analytiques:</strong> Google Analytics (anonymisé)</li>
+              <li><strong>Marketing:</strong> Suivi des conversions</li>
+            </ul>
+          </div>
+
+          <h3>7. Contact DPO</h3>
+          <p>Pour toute question relative à la protection des données:</p>
+          <div class="doc-box success">
+            📧 <strong>Email:</strong> contactsinertis@yahoo.com<br>
+            📞 <strong>Téléphone:</strong> [À compléter]<br>
+            ⏱️ <strong>Délai de réponse:</strong> 48 heures
+          </div>
+        </section>
+
+        <!-- Factures Stripe Section -->
+        <section id="factures" class="doc-section">
+          <div class="breadcrumb">Documentation > <a href="#factures">Factures Stripe</a></div>
+          <h2>🧾 Facturation et Paiements Stripe</h2>
+
+          <h3>1. Système de Facturation</h3>
+          <p>Tous les paiements sont traités via <strong>Stripe</strong>, une plateforme de paiement certifiée PCI-DSS.</p>
+
+          <h3>2. Données de Facturation</h3>
+          <div class="doc-box">
+            <strong>Informations requises pour une facture:</strong>
+            <ul class="doc-list">
+              <li>Nom et prénom du client</li>
+              <li>Adresse de facturation complète</li>
+              <li>Email de contact</li>
+              <li>Numéro de TVA (si applicable)</li>
+              <li>Type de service/produit</li>
+            </ul>
+          </div>
+
+          <h3>3. Processus de Paiement</h3>
+          <ol class="doc-list numbers">
+            <li>Client demande un devis via le formulaire de contact</li>
+            <li>Sinertis Studio envoie un devis personnalisé par email</li>
+            <li>Client accepte le devis et effectue le paiement sur Stripe</li>
+            <li>Facture générée automatiquement par Stripe</li>
+            <li>Confirmation reçue par email avec lien Stripe</li>
+            <li>Accès aux détails de la commande via Stripe</li>
+          </ol>
+
+          <h3>4. Détails de Facturation</h3>
+          <div class="doc-table">
+            <tr>
+              <th>Élément</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>Numéro de facture</td>
+              <td>Numéro unique Stripe commençant par SIN-</td>
+            </tr>
+            <tr>
+              <td>Date d'émission</td>
+              <td>Date du paiement approuvé</td>
+            </tr>
+            <tr>
+              <td>Date d'échéance</td>
+              <td>Immédiate (paiement au comptant)</td>
+            </tr>
+            <tr>
+              <td>Devise</td>
+              <td>EUR (€) - Autres sur demande</td>
+            </tr>
+            <tr>
+              <td>TVA</td>
+              <td>Calculée selon la localisation du client</td>
+            </tr>
+          </div>
+
+          <h3>5. Conditions de Paiement</h3>
+          <div class="doc-box warning">
+            <strong>⚠️ Conditions importantes:</strong>
+            <ul class="doc-list">
+              <li>Paiement obligatoire avant la prestation</li>
+              <li>Acceptation des conditions requise</li>
+              <li>Aucun remboursement après 14 jours</li>
+              <li>Facture valide 5 ans</li>
+            </ul>
+          </div>
+
+          <h3>6. Historique des Factures</h3>
+          <p>Vous pouvez consulter vos factures:</p>
+          <ul class="doc-list">
+            <li>Sur votre compte Stripe (après paiement)</li>
+            <li>Via email (lien Stripe envoyé automatiquement)</li>
+          </ul>
+
+          <h3>7. Remboursements</h3>
+          <div class="doc-box danger">
+            <strong>Politique de remboursement:</strong>
+            <ul class="doc-list">
+              <li>Délai: 14 jours après l'achat</li>
+              <li>Motif valide requis</li>
+              <li>Remboursement via Stripe</li>
+              <li>Délai de traitement: 5-10 jours ouvrés</li>
+            </ul>
+          </div>
+
+          <h3>8. Support Facturation</h3>
+          <p>Pour toute question:</p>
+          <div class="doc-box success">
+            📧 <strong>Email:</strong> contactsinertis@yahoo.com<br>
+            💬 <strong>Discord:</strong> <a href="https://discord.gg/pxkpH2bsJD" target="_blank">Serveur Sinertis</a><br>
+            ⏱️ <strong>Délai de réponse:</strong> 24 heures
+          </div>
+        </section>
+
+        <!-- Produits Section -->
+        <section id="produits" class="doc-section">
+          <div class="breadcrumb">Documentation > <a href="#produits">Produits & Services</a></div>
+          <h2>🛍️ Nos Produits et Services</h2>
+
+          <h3>1. Services Web</h3>
+          <div class="doc-box">
+            <h4>🌐 Création de Sites Web</h4>
+            <p><strong>Description:</strong> Création de sites web modernes, responsifs et optimisés SEO</p>
+            <ul class="doc-list">
+              <li>Design personnalisé</li>
+              <li>Responsive design (mobile, tablette, desktop)</li>
+              <li>Optimisation SEO intégrée</li>
+              <li>Performance optimisée</li>
+              <li>Maintenance 1 an incluse</li>
+            </ul>
+            <p><strong>Tarif:</strong> À partir de 500€</p>
+            <p><strong>Délai:</strong> 2-4 semaines</p>
+          </div>
+
+          <div class="doc-box">
+            <h4>⚙️ Développement Web Custom</h4>
+            <p><strong>Description:</strong> Développement de solutions web spécifiques</p>
+            <ul class="doc-list">
+              <li>Applications web sur mesure</li>
+              <li>Intégration API</li>
+              <li>Base de données</li>
+              <li>Authentification sécurisée</li>
+              <li>Support post-lancement</li>
+            </ul>
+            <p><strong>Tarif:</strong> À partir de 1000€</p>
+            <p><strong>Délai:</strong> Sur demande</p>
+          </div>
+
+          <div class="doc-box">
+            <h4>📱 Applications Mobile</h4>
+            <p><strong>Description:</strong> Développement d'applications mobiles natives</p>
+            <ul class="doc-list">
+              <li>iOS et Android</li>
+              <li>Progressive Web Apps</li>
+              <li>Offline functionality</li>
+              <li>Push notifications</li>
+              <li>Monétisation intégrée</li>
+            </ul>
+            <p><strong>Tarif:</strong> À partir de 2000€</p>
+            <p><strong>Délai:</strong> 4-8 semaines</p>
+          </div>
+
+          <h3>2. Services de Design</h3>
+          <div class="doc-box">
+            <h4>🎨 Design Graphique</h4>
+            <p><strong>Description:</strong> Création de visuels et identité visuelle</p>
+            <ul class="doc-list">
+              <li>Logo et identité visuelle</li>
+              <li>Brochures et flyers</li>
+              <li>Packagings</li>
+              <li>Illustrations custom</li>
+              <li>Animations motion design</li>
+            </ul>
+            <p><strong>Tarif:</strong> À partir de 300€</p>
+          </div>
+
+          <h3>3. Services d'Optimisation</h3>
+          <div class="doc-box">
+            <h4>🔍 SEO & Marketing Digital</h4>
+            <p><strong>Description:</strong> Optimisation pour les moteurs de recherche</p>
+            <ul class="doc-list">
+              <li>Audit SEO complet</li>
+              <li>Optimisation on-page</li>
+              <li>Stratégie de contenu</li>
+              <li>Backlinks de qualité</li>
+              <li>Rapports mensuels</li>
+            </ul>
+            <p><strong>Tarif:</strong> À partir de 400€/mois</p>
+          </div>
+
+          <h3>4. Conditions de Livraison</h3>
+          <div class="doc-table">
+            <tr>
+              <th>Type de service</th>
+              <th>Délai standard</th>
+              <th>Accélération possible</th>
+            </tr>
+            <tr>
+              <td>Site web simple</td>
+              <td>2-3 semaines</td>
+              <td>+200€ (1 semaine)</td>
+            </tr>
+            <tr>
+              <td>Site web complexe</td>
+              <td>4-6 semaines</td>
+              <td>+500€ (2 semaines)</td>
+            </tr>
+            <tr>
+              <td>App mobile</td>
+              <td>4-8 semaines</td>
+              <td>+1000€ (2 semaines)</td>
+            </tr>
+            <tr>
+              <td>Design graphique</td>
+              <td>1-2 semaines</td>
+              <td>+100€ (3 jours)</td>
+            </tr>
+          </div>
+
+          <h3>5. Révisions et Modifications</h3>
+          <div class="doc-box">
+            <strong>Nombre de révisions incluses:</strong>
+            <ul class="doc-list">
+              <li>Sites web: 3 révisions incluses</li>
+              <li>Design: 2 révisions incluses</li>
+              <li>Après: 50€ par révision supplémentaire</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Conditions Section -->
+        <section id="conditions" class="doc-section">
+          <div class="breadcrumb">Documentation > <a href="#conditions">Conditions</a></div>
+          <h2>📋 Conditions Générales d'Utilisation</h2>
+
+          <h3>1. Objet</h3>
+          <p>Les présentes Conditions Générales d'Utilisation régissent l'accès et l'utilisation du site web de Sinertis Studio et de ses services associés.</p>
+
+          <h3>2. Acceptation des Conditions</h3>
+          <div class="doc-box warning">
+            <strong>En utilisant ce site, vous acceptez:</strong>
+            <ul class="doc-list">
+              <li>Ces conditions générales</li>
+              <li>La politique de confidentialité</li>
+              <li>Nos conditions de vente</li>
+            </ul>
+          </div>
+
+          <h3>3. Utilisation Acceptable</h3>
+          <p>Vous vous engagez à ne pas:</p>
+          <ul class="doc-list">
+            <li>Accéder au site par des moyens non autorisés</li>
+            <li>Utiliser des bots ou web scrapers</li>
+            <li>Télécharger le contenu à des fins commerciales</li>
+            <li>Chercher à contourner les mesures de sécurité</li>
+            <li>Transmettre des virus ou malware</li>
+            <li>Harceler ou menacer d'autres utilisateurs</li>
+          </ul>
+
+          <h3>4. Propriété Intellectuelle</h3>
+          <div class="doc-box success">
+            <strong>Droits d'auteur:</strong>
+            <ul class="doc-list">
+              <li>Tout le contenu du site est protégé par copyright</li>
+              <li>Les logos et images sont notre propriété</li>
+              <li>Utilisation autorisée pour usage personnel uniquement</li>
+              <li>Reproduction sans autorisation interdite</li>
+            </ul>
+          </div>
+
+          <h3>5. Limitation de Responsabilité</h3>
+          <div class="doc-box danger">
+            <strong>Sinertis Studio n'est pas responsable de:</strong>
+            <ul class="doc-list">
+              <li>Interruptions temporaires du service</li>
+              <li>Pertes de données dues à votre négligence</li>
+              <li>Dommages indirects</li>
+              <li>Contenu fourni par les utilisateurs</li>
+            </ul>
+          </div>
+
+          <h3>6. Modifications des Services</h3>
+          <p>Nous nous réservons le droit de:</p>
+          <ul class="doc-list">
+            <li>Modifier les services sans préavis</li>
+            <li>Suspendre des fonctionnalités</li>
+            <li>Mettre à jour les conditions générales</li>
+          </ul>
+
+          <h3>7. Résiliation</h3>
+          <div class="doc-box warning">
+            <strong>Cas de résiliation:</strong>
+            <ul class="doc-list">
+              <li>Violation des conditions générales</li>
+              <li>Comportement abusif</li>
+              <li>Non-paiement des services</li>
+              <li>Cessation d'activité volontaire</li>
+            </ul>
+          </div>
+
+          <h3>8. Droit Applicable</h3>
+          <p>Ces conditions sont régies par le droit français. Tout litige sera soumis aux tribunaux compétents.</p>
+        </section>
+
+        <!-- Mentions Légales Section -->
+        <section id="mentions-legales" class="doc-section">
+          <div class="breadcrumb">Documentation > <a href="#mentions-legales">Mentions Légales</a></div>
+          <h2>⚖️ Mentions Légales</h2>
+
+          <h3>1. Éditeur du Site</h3>
+          <div class="doc-box">
+            <strong>Sinertis Studio</strong><br>
+            Email: <a href="mailto:contactsinertis@yahoo.com">contactsinertis@yahoo.com</a>
+          </div>
+
+          <h3>2. Hébergeur</h3>
+          <div class="doc-box">
+            <strong>Hébergement du site:</strong> OVH Cloud<br>
+            <strong>Plateforme:</strong> Infrastructure cloud optimisée
+          </div>
+
+          <h3>4. Conditions d'Utilisation</h3>
+          <ul class="doc-list">
+            <li>Accès gratuit au site</li>
+            <li>Droit de refuser l'accès sans justification</li>
+            <li>Responsabilité limitée de l'éditeur</li>
+            <li>Utilisation non commerciale sauf autorisation</li>
+          </ul>
+
+          <h3>5. Propriété Intellectuelle</h3>
+          <div class="doc-table">
+            <tr>
+              <th>Élément</th>
+              <th>Propriétaire</th>
+              <th>Droits</th>
+            </tr>
+            <tr>
+              <td>Logo Sinertis</td>
+              <td>Sinertis Studio</td>
+              <td>© 2024 - Tous droits réservés</td>
+            </tr>
+            <tr>
+              <td>Contenu textuel</td>
+              <td>Sinertis Studio</td>
+              <td>CC-BY-NC (usage personnel)</td>
+            </tr>
+            <tr>
+              <td>Photographies</td>
+              <td>Sinertis Studio / Contributeurs</td>
+              <td>Licence spécifique</td>
+            </tr>
+            <tr>
+              <td>Icônes</td>
+              <td>Open source</td>
+              <td>Licences respectives</td>
+            </tr>
+          </div>
+
+          <h3>6. Liens Externes</h3>
+          <p>Sinertis Studio ne peut être tenue responsable:</p>
+          <ul class="doc-list">
+            <li>Du contenu des sites externes</li>
+            <li>De la disponibilité des liens</li>
+            <li>Des infections ou virus</li>
+            <li>De violations de droits d'auteur</li>
+          </ul>
+
+          <h3>7. Données Personnelles</h3>
+          <p>Pour plus d'informations, consultez notre <a href="#rgpd" onclick="showSection('rgpd')">politique de confidentialité RGPD</a>.</p>
+
+          <h3>8. Cookies</h3>
+          <div class="doc-box">
+            <strong>Types de cookies utilisés:</strong>
+            <ul class="doc-list">
+              <li>Essentiels: Fonctionnement du site</li>
+              <li>Analytiques: Amélioration des services</li>
+              <li>Publicité: Personnalisation (consentement requis)</li>
+            </ul>
+            <p><strong>Gestion:</strong> Paramètres du navigateur</p>
+          </div>
+
+          <h3>9. Signalement de Contenu Illicite</h3>
+          <div class="doc-box warning">
+            <strong>Procédure de signalement:</strong><br>
+            Email: <a href="mailto:contactsinertis@yahoo.com">contactsinertis@yahoo.com</a><br>
+            Objet: "Signalement de contenu illicite"<br>
+            Délai de traitement: 48 heures
+          </div>
+
+          <h3>10. Modification des Mentions Légales</h3>
+          <p>Ces mentions légales peuvent être modifiées à tout moment. La date de dernière mise à jour est indiquée en bas du site.</p>
+          <p><strong>Dernière mise à jour:</strong> 9 décembre 2024</p>
+        </section>
+
+        <!-- Sécurité Section -->
+        <section id="securite" class="doc-section">
+          <div class="breadcrumb">Documentation > <a href="#securite">Sécurité</a></div>
+          <h2>🔒 Sécurité et Protection des Données</h2>
+
+          <h3>1. Mesures Techniques</h3>
+          <div class="doc-box success">
+            <strong>Chiffrement et transport:</strong>
+            <ul class="doc-list">
+              <li>Protocole HTTPS obligatoire</li>
+              <li>Certificat SSL/TLS valide</li>
+              <li>Clés de chiffrement 256 bits</li>
+              <li>Renouvellement automatique</li>
+            </ul>
+          </div>
+
+          <h3>2. Authentification</h3>
+          <div class="doc-box">
+            <strong>Mesures de sécurité:</strong>
+            <ul class="doc-list">
+              <li>Mots de passe hashés (bcrypt) pour l'admin</li>
+              <li>Sessions sécurisées et timeouts automatiques</li>
+              <li>Protection contre les brute-force attacks</li>
+              <li>Accès restreint au panel admin</li>
+            </ul>
+          </div>
+
+          <h3>3. Protection contre les Attaques</h3>
+          <div class="doc-table">
+            <tr>
+              <th>Type d'attaque</th>
+              <th>Prévention</th>
+            </tr>
+            <tr>
+              <td>XSS (Cross-Site Scripting)</td>
+              <td>Validation et échappement des entrées</td>
+            </tr>
+            <tr>
+              <td>SQL Injection</td>
+              <td>Prepared statements</td>
+            </tr>
+            <tr>
+              <td>CSRF (Cross-Site Request Forgery)</td>
+              <td>Tokens CSRF sur tous les formulaires</td>
+            </tr>
+            <tr>
+              <td>DDoS</td>
+              <td>Rate limiting et WAF</td>
+            </tr>
+            <tr>
+              <td>Brute-force</td>
+              <td>Limitation de tentatives</td>
+            </tr>
+          </div>
+
+          <h3>4. Gestion des Paiements</h3>
+          <div class="doc-box warning">
+            <strong>Conformité PCI-DSS:</strong>
+            <ul class="doc-list">
+              <li>Paiements traités par Stripe (niveau 1 PCI)</li>
+              <li>Nous n'avons JAMAIS accès aux numéros de carte</li>
+              <li>Tokenization des données de paiement</li>
+              <li>Audits de sécurité réguliers</li>
+            </ul>
+          </div>
+
+          <h3>5. Sauvegarde et Récupération</h3>
+          <ul class="doc-list">
+            <li>Sauvegardes quotidiennes automatiques</li>
+            <li>Stockage redondant (3 copies minimum)</li>
+            <li>Récupération en moins de 1 heure</li>
+            <li>Tests mensuels de restauration</li>
+          </ul>
+
+          <h3>6. Conformité et Certifications</h3>
+          <div class="doc-box success">
+            <strong>Certifications:</strong>
+            <ul class="doc-list">
+              <li>✓ RGPD (UE)</li>
+              <li>✓ PCI-DSS (Paiements)</li>
+              <li>✓ CCPA (Californie)</li>
+              <li>✓ LGPD (Brésil)</li>
+            </ul>
+          </div>
+
+          <h3>7. Signalement de Vulnérabilités</h3>
+          <div class="doc-box warning">
+            <strong>Si vous découvrez une faille de sécurité:</strong><br>
+            📧 Email: <a href="mailto:contactsinertis@yahoo.com">contactsinertis@yahoo.com</a><br>
+            🔒 Responsable sécurité: Sinertis Studio<br>
+            ⏱️ Délai maximum de correction: 30 jours
+          </div>
+
+          <h3>8. Politique de Mise à Jour</h3>
+          <ul class="doc-list">
+            <li>Mises à jour critiques: Immédiat</li>
+            <li>Mises à jour de sécurité: Sous 72h</li>
+            <li>Mises à jour courantes: Mensuel</li>
+            <li>Notifications préalables quand possible</li>
+          </ul>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="doc-section">
+          <div class="breadcrumb">Documentation > <a href="#faq">FAQ</a></div>
+          <h2>❓ Questions Fréquemment Posées</h2>
+
+          <h3>Général</h3>
+          <div class="doc-box">
+            <h4>Qui est Sinertis Studio?</h4>
+            <p>Sinertis Studio est une agence de développement web et design digital spécialisée dans la création de solutions numériques innovantes.</p>
+          </div>
+
+          <div class="doc-box">
+            <h4>Avez-vous une localisation physique?</h4>
+            <p>Non, nous opérons entièrement en ligne. Consultations et support disponibles via email et Discord.</p>
+          </div>
+
+          <h3>Services et Tarifs</h3>
+          <div class="doc-box">
+            <h4>Proposez-vous des services en urgence?</h4>
+            <p>Oui, nous proposons une accélération de projet contre surcoût. Contactez-nous directement pour des détails.</p>
+          </div>
+
+          <div class="doc-box">
+            <h4>Incluez-vous la maintenance après livraison?</h4>
+            <p>Oui, 1 an de maintenance gratuite est inclus pour les sites web. Des forfaits d'extension sont disponibles.</p>
+          </div>
+
+          <div class="doc-box">
+            <h4>Quels sont les modes de paiement acceptés?</h4>
+            <p>Nous acceptons toutes les cartes bancaires (via Stripe), virements bancaires, et PayPal sur demande.</p>
+          </div>
+
+          <h3>RGPD et Sécurité</h3>
+          <div class="doc-box">
+            <h4>Mes données sont-elles sécurisées?</h4>
+            <p>Oui, nous utilisons HTTPS, chiffrement 256-bit, et respectons strictement le RGPD. Consultez notre <a href="#securite" onclick="showSection('securite')">section sécurité</a> pour plus de détails.</p>
+          </div>
+
+          <div class="doc-box">
+            <h4>Pouvez-vous supprimer mes données?</h4>
+            <p>Oui, vous avez le droit à l'oubli selon le RGPD. Demandez la suppression à <a href="mailto:contactsinertis@yahoo.com">contactsinertis@yahoo.com</a>.</p>
+          </div>
+
+          <div class="doc-box">
+            <h4>Avez-vous une politique de cookies?</h4>
+            <p>Oui, nous utilisons uniquement les cookies essentiels et analytiques. Aucun cookie de tracking sans consentement.</p>
+          </div>
+
+          <h3>Problèmes Techniques</h3>
+          <div class="doc-box">
+            <h4>Le site est lent, que faire?</h4>
+            <p>Essayez de vider votre cache (Ctrl+Shift+Del), desactiver les extensions, ou utilisez un autre navigateur. Contactez-nous si le problème persiste.</p>
+          </div>
+
+          <div class="doc-box">
+            <h4>Je n'ai pas reçu ma facture, que faire?</h4>
+            <p>Vérifiez votre dossier spam. Si toujours absent, contactez-nous avec votre identifiant de paiement Stripe.</p>
+          </div>
+
+          <div class="doc-box">
+            <h4>Comment réinitialiser mon mot de passe?</h4>
+            <p>Cliquez sur "Mot de passe oublié" sur la page de connexion. Un email de réinitialisation sera envoyé.</p>
+          </div>
+
+          <h3>Support et Contact</h3>
+          <div class="doc-box">
+            <h4>Comment contacter le support?</h4>
+            <p>📧 Email: <a href="mailto:contactsinertis@yahoo.com">contactsinertis@yahoo.com</a><br>
+            💬 Discord: <a href="https://discord.gg/pxkpH2bsJD" target="_blank">Serveur Sinertis</a><br>
+            🕐 Horaires: Lun-Ven 9h-18h (GMT+1)</p>
+          </div>
+
+          <div class="doc-box">
+            <h4>Quel est le délai de réponse?</h4>
+            <p>Nous répondons généralement dans les 24h. Les questions urgentes peuvent être traitées en moins de 4h.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 3rem 2rem; margin-top: 4rem;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+      <div>
+        <h4>Sinertis Studio</h4>
+        <p>Agence de développement web et design digital.</p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul style="list-style: none; padding: 0;">
+          <li><a href="index.html" style="color: white; text-decoration: none;">Accueil</a></li>
+          <li><a href="services.html" style="color: white; text-decoration: none;">Services</a></li>
+          <li><a href="portfolio.html" style="color: white; text-decoration: none;">Portfolio</a></li>
+          <li><a href="contact.html" style="color: white; text-decoration: none;">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Documentation</h4>
+        <ul style="list-style: none; padding: 0;">
+          <li><a href="#rgpd" onclick="showSection('rgpd')" style="color: white; text-decoration: none;">RGPD</a></li>
+          <li><a href="#factures" onclick="showSection('factures')" style="color: white; text-decoration: none;">Factures</a></li>
+          <li><a href="#mentions-legales" onclick="showSection('mentions-legales')" style="color: white; text-decoration: none;">Mentions légales</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>📧 <a href="mailto:contactsinertis@yahoo.com" style="color: white; text-decoration: none;">contactsinertis@yahoo.com</a></p>
+        <p>🌐 <a href="https://discord.gg/pxkpH2bsJD" target="_blank" style="color: white; text-decoration: none;">Discord</a></p>
+      </div>
+    </div>
+    <div style="border-top: 1px solid rgba(255,255,255,0.2); margin-top: 2rem; padding-top: 2rem; text-align: center; opacity: 0.8;">
+      <p>© 2024 Sinertis Studio. Tous droits réservés. | <a href="#rgpd" onclick="showSection('rgpd')" style="color: white; text-decoration: none;">RGPD</a> | <a href="#mentions-legales" onclick="showSection('mentions-legales')" style="color: white; text-decoration: none;">Mentions légales</a></p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/admin.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Documentation Navigation
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.doc-section').forEach(section => {
+        section.classList.remove('active');
+      });
+
+      // Remove active from all menu items
+      document.querySelectorAll('.doc-menu a').forEach(link => {
+        link.classList.remove('active');
+      });
+
+      // Show selected section
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.classList.add('active');
+        // Scroll to top of content
+        document.querySelector('.doc-content').scrollTop = 0;
+        
+        // Mark menu item as active
+        const menuLink = document.querySelector(`.doc-menu a[href="#${sectionId}"]`);
+        if (menuLink) {
+          menuLink.classList.add('active');
+        }
+      }
+
+      // Prevent default link behavior
+      return false;
+    }
+
+    // Set initial active state
+    document.addEventListener('DOMContentLoaded', function() {
+      const firstLink = document.querySelector('.doc-menu a');
+      if (firstLink) {
+        firstLink.classList.add('active');
+      }
+    });
+
+    function openAdminPage() {
+      window.location.href = 'admin.html';
+    }
+  </script>
+</body>
+</html>

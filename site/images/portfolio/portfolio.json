@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "title": "Plateforme E-commerce Moderne",
+    "category": "web",
+    "description": "Site e-commerce complet avec intégration de paiement et gestion d'inventaire",
+    "image": "web/ecommerce.png",
+    "url": "#",
+    "technologies": ["HTML5", "CSS3", "JavaScript", "API REST"]
+  },
+  {
+    "id": 2,
+    "title": "Application Gestion Projet",
+    "category": "web",
+    "description": "Outil collaboratif pour la gestion de projets et des équipes",
+    "image": "web/project-mgmt.png",
+    "url": "#",
+    "technologies": ["React", "Node.js", "MongoDB"]
+  },
+  {
+    "id": 3,
+    "title": "Bot Discord Modération",
+    "category": "discord",
+    "description": "Bot automatisé pour modération et gestion de serveur Discord",
+    "image": "discord/Capture d'écran 2025-12-02 183049.png",
+    "url": "#",
+    "technologies": ["Discord.js", "JavaScript", "Node.js"]
+  },
+  {
+    "id": 4,
+    "title": "Jeu Roblox - Obby Challenge",
+    "category": "roblox",
+    "description": "Expérience Roblox avec obstacles progressifs et système de récompenses",
+    "image": "roblox/obby.png",
+    "url": "#",
+    "technologies": ["Lua", "Roblox Studio"]
+  },
+  {
+    "id": 5,
+    "title": "Portail Clientèle",
+    "category": "web",
+    "description": "Interface personnalisée pour suivi des services et facturation",
+    "image": "web/client-portal.png",
+    "url": "#",
+    "technologies": ["Vue.js", "Bootstrap", "PHP"]
+  },
+  {
+    "id": 6,
+    "title": "Système Ticketing Discord",
+    "category": "discord",
+    "description": "Système complet de tickets de support intégré Discord",
+    "image": "discord/tickets.png",
+    "url": "#",
+    "technologies": ["Discord.js", "Embeds"]
+  }
+]

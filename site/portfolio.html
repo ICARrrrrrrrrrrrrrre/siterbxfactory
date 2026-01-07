@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Sinertis Studio</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <ul class="nav-menu">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html" class="active">Portfolio</a></li>
+        <li><a href="tarifs.html">Tarifs</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="documentation.html">Documentation</a></li>
+      </ul>
+      <div class="navbar-right">
+        <button id="adminToggle" onclick="openAdminPage()" style="background: none; border: none; cursor: pointer; padding: 0.5rem; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; color: var(--primary); width: 2.2rem; height: 2.2rem; border-radius: 50%;" title="Espace Admin" onmouseover="this.style.background='rgba(4, 86, 168, 0.1)'; this.style.color='var(--accent)'" onmouseout="this.style.background='none'; this.style.color='var(--primary)'"><img src="icons/lock.svg" alt="Admin" style="width: 100%; height: 100%; filter: invert(0.3) hue-rotate(200deg); transition: all 0.3s ease;"></button>
+        <a href="https://youtube.com/@sinertis" target="_blank" rel="noopener noreferrer" class="navbar-social" title="YouTube">
+          <img src="icons/youtube.svg" alt="YouTube" style="height: 24px;">
+        </a>
+        <a href="https://discord.gg/pxkpH2bsJD" target="_blank" rel="noopener noreferrer" class="navbar-social" title="Discord">
+          <img src="icons/discord.svg" alt="Discord" style="height: 24px;">
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SIDEBAR -->
+  <div class="overlay"></div>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="images/brand/logo.svg" alt="Sinertis" style="height: 35px;">
+      <button class="sidebar-close">×</button>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html" class="active">Portfolio</a></li>
+        <li><a href="tarifs.html">Tarifs</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-social" style="padding: 1.5rem; border-top: 1px solid var(--border); margin-top: 1.5rem;">
+      <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px;">Nous suivre</p>
+      <div style="display: flex; gap: 1rem;">
+        <a href="https://youtube.com/@sinertis" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(4, 86, 168, 0.1); border-radius: 50%; transition: all 0.3s ease;">
+          <img src="icons/youtube.svg" alt="YouTube" style="width: 24px; height: 24px;">
+        </a>
+        <a href="https://discord.gg/pxkpH2bsJD" target="_blank" rel="noopener noreferrer" aria-label="Discord" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(4, 86, 168, 0.1); border-radius: 50%; transition: all 0.3s ease;">
+          <img src="icons/discord.svg" alt="Discord" style="width: 24px; height: 24px;">
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- HERO -->
+  <section class="hero" style="padding: 6rem 0 4rem;">
+    <div class="hero-content">
+      <h1>Notre Portfolio</h1>
+      <p>Découvrez nos projets réalisés : sites web modernes, applications, bots Discord et expériences Roblox</p>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO SECTION -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Nos Réalisations</h2>
+      <p class="section-subtitle">Cliquez sur une catégorie pour filtrer les projets</p>
+
+      <!-- UPLOAD SECTION - Hidden by default -->
+      <div id="adminPanel" style="display: none; background: linear-gradient(135deg, rgba(4, 86, 168, 0.08) 0%, rgba(124, 77, 255, 0.08) 100%); padding: 2.5rem; border-radius: var(--radius); border-left: 5px solid var(--primary); margin-bottom: 3rem; animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h3 style="color: var(--primary); margin: 0; animation: none;">📸 Ajouter un Projet au Portfolio</h3>
+          <button type="button" onclick="closeAdminPanel()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light);">×</button>
+        </div>
+        <form id="uploadForm" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <div>
+              <label for="projectTitle" style="font-weight: 700; color: var(--text); display: block; margin-bottom: 0.5rem;">Titre du Projet *</label>
+              <input type="text" id="projectTitle" placeholder="Ex: Site E-commerce Boutique" required style="width: 100%; padding: 0.8rem; border: 2px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 1rem;">
+            </div>
+
+            <div>
+              <label for="projectCategory" style="font-weight: 700; color: var(--text); display: block; margin-bottom: 0.5rem;">Catégorie *</label>
+              <select id="projectCategory" required style="width: 100%; padding: 0.8rem; border: 2px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 1rem;">
+                <option value="">Sélectionnez une catégorie</option>
+                <option value="Web">🌐 Sites Web</option>
+                <option value="Développement">⚙️ Développement</option>
+                <option value="Mobile">📱 Mobile</option>
+                <option value="Design">🎨 Design</option>
+                <option value="SEO">🔍 SEO</option>
+                <option value="Autre">📌 Autre</option>
+              </select>
+            </div>
+
+            <div style="grid-column: 1 / -1;">
+              <label for="projectDesc" style="font-weight: 700; color: var(--text); display: block; margin-bottom: 0.5rem;">Description *</label>
+              <textarea id="projectDesc" placeholder="Décrivez le projet..." required style="width: 100%; padding: 0.8rem; border: 2px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 1rem; min-height: 80px;"></textarea>
+            </div>
+
+            <div style="grid-column: 1 / -1;">
+              <label style="font-weight: 700; color: var(--text); display: block; margin-bottom: 1rem;">Photo du Projet *</label>
+              <div style="position: relative; border: 2px dashed var(--primary); border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.3s ease; background: white;" id="uploadZone">
+                <input type="file" id="projectImage" accept="image/png,image/jpeg,image/gif,image/webp" style="display: none;">
+                <p style="margin: 0; color: var(--text-light); font-size: 1rem;">📁 Cliquez ou glissez votre image ici</p>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: var(--text-light);">Formats: PNG, JPG, GIF, WebP (max 5MB)</p>
+                <img id="previewImage" style="margin-top: 1rem; max-width: 100%; max-height: 200px; border-radius: 8px; display: none;">
+                <p id="uploadFileName" style="margin-top: 0.5rem; color: var(--primary); font-weight: 700; display: none;"></p>
+              </div>
+            </div>
+
+            <div style="grid-column: 1 / -1; display: flex; gap: 1rem;">
+              <button type="submit" class="btn btn-primary" style="flex: 1; cursor: pointer;">✅ Ajouter au Portfolio</button>
+              <button type="reset" class="btn btn-secondary" style="flex: 1; cursor: pointer;">🔄 Réinitialiser</button>
+            </div>
+        </form>
+        <div id="uploadStatus" style="display: none; padding: 1rem; border-radius: 8px; margin-top: 1rem; font-weight: 600;"></div>
+      </div>
+      <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap;">
+        <button class="filter-btn active" data-filter="all">
+          Tous les Projets
+        </button>
+        <button class="filter-btn" data-filter="Web">
+          🌐 Sites Web
+        </button>
+        <button class="filter-btn" data-filter="Développement">
+          ⚙️ Développement
+        </button>
+        <button class="filter-btn" data-filter="Mobile">
+          📱 Mobile
+        </button>
+        <button class="filter-btn" data-filter="Design">
+          🎨 Design
+        </button>
+        <button class="filter-btn" data-filter="SEO">
+          🔍 SEO
+        </button>
+        <button class="filter-btn" data-filter="Autre">
+          📌 Autre
+        </button>
+      </div>
+
+      <!-- PORTFOLIO GRID -->
+      <div class="portfolio-grid" id="portfolioGrid">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="section" style="background: linear-gradient(135deg, rgba(4, 86, 168, 0.08) 0%, rgba(124, 77, 255, 0.08) 100%);">
+    <div class="container" style="text-align: center; max-width: 800px; margin: 0 auto;">
+      <h2>Prêt pour votre projet?</h2>
+      <p style="font-size: 1.1rem; margin-bottom: 2rem;">Transformons votre vision en réalité. Contactez-nous dès aujourd'hui pour discuter de vos besoins.</p>
+      <a href="contact.html" class="btn btn-accent btn-large">
+        Commencer votre projet
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-col">
+          <h4>À Propos</h4>
+          <p style="font-size: 0.95rem; line-height: 1.8;">Sinertis Studio crée des solutions digitales innovantes et professionnelles pour transformer votre présence en ligne.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <a href="services.html">Sites Web</a>
+          <a href="services.html">Applications</a>
+          <a href="services.html">Bots Discord</a>
+          <a href="services.html">Projets Roblox</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:contactsinertis@yahoo.com">contactsinertis@yahoo.com</a>
+          <a href="contact.html">Formulaire de contact</a>
+        </div>
+      </div>
+      <div class="footer-social">
+        <a href="https://youtube.com/@sinertis" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <img src="icons/youtube.svg" alt="YouTube">
+        </a>
+        <a href="https://discord.gg/pxkpH2bsJD" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+          <img src="icons/discord.svg" alt="Discord">
+        </a>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Sinertis Studio. Tous droits réservés. | Création de solutions digitales innovantes</p>
+      </div>
+    </div>
+  </footer>
+
+  <style>
+    .filter-btn {
+      padding: 0.8rem 1.8rem;
+      border: 2px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 25px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-size: 0.95rem;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba(4, 86, 168, 0.3);
+    }
+
+    .portfolio-card.hidden {
+      display: none;
+    }
+
+    .portfolio-card.show {
+      animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+  </style>
+
+  <script src="js/admin.js"></script>
+  <script>
+    // Admin panel redirector
+    function openAdminPage() {
+      if (ADMIN.isAuthenticated()) {
+        window.location.href = 'admin.html';
+      } else {
+        window.location.href = 'admin.html';
+      }
+    }
+
+    // PORTFOLIO UPLOAD
+    let selectedImage = null;
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('projectImage');
+    const previewImage = document.getElementById('previewImage');
+    const uploadFileName = document.getElementById('uploadFileName');
+
+    if (uploadZone) {
+      uploadZone.addEventListener('click', () => fileInput.click());
+
+      // Drag and drop
+      uploadZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadZone.style.background = 'rgba(4, 86, 168, 0.1)';
+        uploadZone.style.borderColor = 'var(--accent)';
+      });
+
+      uploadZone.addEventListener('dragleave', () => {
+        uploadZone.style.background = 'white';
+        uploadZone.style.borderColor = 'var(--primary)';
+      });
+
+      uploadZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadZone.style.background = 'white';
+        uploadZone.style.borderColor = 'var(--primary)';
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleImageSelect(files[0]);
+        }
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleImageSelect(e.target.files[0]);
+        }
+      });
+    }
+
+    function handleImageSelect(file) {
+      const maxSize = 5 * 1024 * 1024;
+      
+      if (file.size > maxSize) {
+        alert('❌ Image trop volumineuse (max 5MB)');
+        return;
+      }
+
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        alert('❌ Format non autorisé. Utilisez: PNG, JPG, GIF ou WebP');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        selectedImage = {
+          data: e.target.result,
+          name: file.name,
+          size: file.size
+        };
+
+        previewImage.src = e.target.result;
+        previewImage.style.display = 'block';
+        uploadFileName.textContent = `✓ ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`;
+        uploadFileName.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Handle form submission
+    document.getElementById('uploadForm')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const statusDiv = document.getElementById('uploadStatus');
+
+      const title = document.getElementById('projectTitle').value.trim();
+      const category = document.getElementById('projectCategory').value;
+      const desc = document.getElementById('projectDesc').value.trim();
+
+      if (!title || !category || !desc || !selectedImage) {
+        statusDiv.style.background = 'rgba(239, 68, 68, 0.1)';
+        statusDiv.style.borderLeft = '4px solid #ef4444';
+        statusDiv.style.color = '#991b1b';
+        statusDiv.innerHTML = '❌ Tous les champs sont requis, incluant une image';
+        statusDiv.style.display = 'block';
+        return;
+      }
+
+      const newProject = {
+        id: Date.now(),
+        title: title,
+        category: category,
+        description: desc,
+        image: selectedImage.data,
+        technologies: [category.charAt(0).toUpperCase() + category.slice(1)],
+        addedBy: 'admin',
+        addedAt: new Date().toLocaleString('fr-FR')
+      };
+
+      let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+      projects.push(newProject);
+      localStorage.setItem('portfolioProjects', JSON.stringify(projects));
+
+      statusDiv.style.background = 'rgba(16, 185, 129, 0.1)';
+      statusDiv.style.borderLeft = '4px solid #10b981';
+      statusDiv.style.color = '#047857';
+      statusDiv.innerHTML = '✓ Projet ajouté au portfolio! Rechargez la page pour voir les changements.';
+      statusDiv.style.display = 'block';
+
+      setTimeout(() => {
+        this.reset();
+        selectedImage = null;
+        previewImage.style.display = 'none';
+        uploadFileName.style.display = 'none';
+        statusDiv.style.display = 'none';
+      }, 2000);
+    });
+
+    // PORTFOLIO FILTERING
+    let portfolioData = [];
+
+    async function loadPortfolio() {
+      try {
+        const response = await fetch('images/portfolio/portfolio.json');
+        const jsonProjects = await response.json();
+        
+        const localProjects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+        portfolioData = [...jsonProjects, ...localProjects];
+        
+        renderPortfolio('all');
+      } catch (error) {
+        console.error('Erreur chargement portfolio:', error);
+        const localProjects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
+        portfolioData = localProjects;
+        renderPortfolio('all');
+      }
+    }
+
+    function renderPortfolio(filter) {
+      const grid = document.getElementById('portfolioGrid');
+      grid.innerHTML = '';
+
+      const filtered = filter === 'all' 
+        ? portfolioData 
+        : portfolioData.filter(project => project.category === filter);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 2rem;">Aucun projet dans cette catégorie</p>';
+        return;
+      }
+
+      filtered.forEach((project, index) => {
+        const card = document.createElement('div');
+        card.className = 'portfolio-card show';
+        card.style.animationDelay = (index * 0.1) + 's';
+        
+        const imageSrc = project.image.startsWith('data:') ? project.image : 'images/portfolio/' + project.image;
+        
+        card.innerHTML = `
+          <div class="portfolio-image">
+            <img src="${imageSrc}" alt="${project.title}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22%3E%3Crect fill=%22%230456a8%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2224%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 font-family=%22Arial%22%3E${project.category.toUpperCase()}%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="portfolio-info">
+            <div class="portfolio-category">${project.category}</div>
+            <h4>${project.title}</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 1rem;">${project.description}</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+              ${project.technologies.map(tech => `<span style="background: rgba(4, 86, 168, 0.1); color: var(--primary); padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem; font-weight: 600;">${tech}</span>`).join('')}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        renderPortfolio(this.dataset.filter);
+      });
+    });
+
+    loadPortfolio();
+  </script>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
